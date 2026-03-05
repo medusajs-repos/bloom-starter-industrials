@@ -10,7 +10,7 @@ interface ProLiftMarkProps {
 
 function ForkliftPaths({ color, bg }: { color: string; bg: string }) {
   return (
-    <>
+    <g transform="translate(44, 0)">
       {/* Body */}
       <rect x="160" y="230" width="200" height="110" rx="12" fill={color} />
       {/* Cab */}
@@ -33,7 +33,7 @@ function ForkliftPaths({ color, bg }: { color: string; bg: string }) {
       {/* Rear wheel */}
       <circle cx="330" cy="360" r="28" fill={bg} stroke={color} strokeWidth="12" />
       <circle cx="330" cy="360" r="9" fill={color} />
-    </>
+    </g>
   )
 }
 
