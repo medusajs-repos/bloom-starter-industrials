@@ -45,8 +45,8 @@ export const Route = createFileRoute("/$countryCode/store")({
   head: ({ loaderData }) => {
     const { region, countryCode } = loaderData || {}
     const regionName = region?.name || countryCode?.toUpperCase()
-    const title = `Shop All Products - ${regionName} | Medusa Store`
-    const description = `Browse our complete collection of products available in ${regionName}. Free shipping and easy returns.`
+    const title = `Shop All Products - ${regionName} | ProLift Equipment`
+    const description = `Browse ProLift's complete collection of industrial equipment and parts available in ${regionName}.`
 
     return {
       meta: [

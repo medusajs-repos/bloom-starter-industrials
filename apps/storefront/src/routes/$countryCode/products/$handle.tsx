@@ -77,7 +77,7 @@ export const Route = createFileRoute("/$countryCode/products/$handle")({
       return {
         meta: [
           {
-            title: "Product Not Found | Medusa Store",
+            title: "Product Not Found | ProLift Equipment",
           },
         ],
       };
@@ -92,7 +92,7 @@ export const Route = createFileRoute("/$countryCode/products/$handle")({
       image: product.images?.map((img) => img.url).filter(Boolean) || [],
       brand: {
         "@type": "Brand",
-        name: "Medusa Store",
+        name: "ProLift Equipment",
       },
       offers: {
         "@type": "Offer",
@@ -110,7 +110,7 @@ export const Route = createFileRoute("/$countryCode/products/$handle")({
     return {
       meta: [
         {
-          title: `${product.title} | Medusa Store`,
+          title: `${product.title} | ProLift Equipment`,
         },
         {
           name: "description",
@@ -118,12 +118,12 @@ export const Route = createFileRoute("/$countryCode/products/$handle")({
         },
         {
           property: "og:title",
-          content: `${product.title} | Medusa Store`,
+          content: `${product.title} | ProLift Equipment`,
         },
         {
           property: "og:description",
           content:
-            product.description || "Check out this product on Medusa Store",
+            product.description || "Check out this product on ProLift Equipment",
         },
         {
           property: "og:image",

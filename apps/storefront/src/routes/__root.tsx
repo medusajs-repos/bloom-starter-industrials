@@ -30,11 +30,13 @@ export const Route = createRootRouteWithContext<{
   },
   head: () => ({
     links: [
-      { rel: "icon", href: "/images/medusa.svg" },
+      { rel: "icon", type: "image/svg+xml", href: "/images/prolift-favicon.svg" },
+      { rel: "shortcut icon", href: "/images/prolift-favicon.svg" },
+      { rel: "apple-touch-icon", href: "/images/prolift-favicon.svg" },
       { rel: "stylesheet", href: appCss },
     ],
     meta: [
-      { title: "Medusa Storefront" },
+      { title: "ProLift Equipment" },
       { charSet: "UTF-8" },
       {
         name: "viewport",

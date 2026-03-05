@@ -39,8 +39,8 @@ export const Route = createFileRoute("/$countryCode/")({
     }
   },
   head: () => {
-    const title = `Welcome to Medusa Store`
-    const description = `Discover our curated collection of products. Browse our latest featured items and shop with confidence.`
+    const title = `ProLift Equipment | Industrial Lifting Solutions`
+    const description = `Discover ProLift's curated collection of industrial equipment, forklift parts, and warehouse solutions. Browse our latest products and shop with confidence.`
 
     return {
       meta: [

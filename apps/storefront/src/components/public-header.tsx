@@ -1,5 +1,6 @@
 import { Link, useParams } from "@tanstack/react-router"
 import { useState } from "react"
+import { ProLiftMark } from "@/components/prolift-mark"
 
 export function PublicHeader() {
   const params = useParams({ strict: false }) as { countryCode?: string }
@@ -12,11 +13,7 @@ export function PublicHeader() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link to={`/${countryCode}`} className="flex items-center gap-2">
-            <div className="w-10 h-10 bg-teal-600 rounded-lg flex items-center justify-center">
-              <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
-              </svg>
-            </div>
+            <ProLiftMark size={40} bg="#0f172a" color="#0d9488" />
             <div>
               <span className="font-bold text-lg text-gray-900">ProLift</span>
               <span className="text-teal-600 text-xs font-semibold ml-0.5">PRO</span>
