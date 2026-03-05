@@ -2,6 +2,7 @@ import { Link, useRouterState, useNavigate } from "@tanstack/react-router"
 import { useCart } from "@/lib/hooks/use-cart"
 import { useAuth } from "@/lib/hooks/use-auth"
 import { useState } from "react"
+import { ProLiftMark } from "@/components/prolift-mark"
 
 interface SidebarProps {
   countryCode: string
@@ -133,9 +134,7 @@ export function Sidebar({ countryCode, collapsed = false, onToggle }: SidebarPro
               className="w-10 h-10 rounded-lg object-cover flex-shrink-0"
             />
           ) : (
-            <div className="w-10 h-10 bg-accent rounded-lg flex items-center justify-center flex-shrink-0">
-              <BuildingIcon />
-            </div>
+            <ProLiftMark size={40} bg="#0f172a" color="#0d9488" />
           )}
           {!collapsed && (
             <div className="overflow-hidden">

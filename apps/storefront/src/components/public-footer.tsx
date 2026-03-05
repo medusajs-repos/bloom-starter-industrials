@@ -1,4 +1,5 @@
 import { Link, useParams } from "@tanstack/react-router"
+import { ProLiftMark } from "@/components/prolift-mark"
 
 export function PublicFooter() {
   const params = useParams({ strict: false }) as { countryCode?: string }
@@ -29,11 +30,7 @@ export function PublicFooter() {
           {/* Brand column */}
           <div className="lg:col-span-1">
             <Link to={`/${countryCode}`} className="flex items-center gap-2 mb-4">
-              <div className="w-10 h-10 bg-teal-600 rounded-lg flex items-center justify-center">
-                <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
-                </svg>
-              </div>
+              <ProLiftMark size={40} bg="#0f172a" color="#0d9488" />
               <div>
                 <span className="font-bold text-lg text-white">ProLift</span>
                 <span className="text-teal-400 text-xs font-semibold ml-0.5">PRO</span>
