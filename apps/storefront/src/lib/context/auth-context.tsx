@@ -20,18 +20,17 @@ const AuthContext = createContext<AuthContextType | null>(null)
 const AUTH_STATE_KEY = "auth_state"
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  // Restore last-known auth state from sessionStorage so that isAuthenticated
-  // is correct on the very first render (avoids unauthenticated flash for
-  // users who are already logged in within the same tab session).
-  const cachedAuthState = typeof window !== "undefined" ? sessionStorage.getItem(AUTH_STATE_KEY) : null
-  const initialAuthState = cachedAuthState === "authenticated"
-  // Only show the loading spinner when we have a cached "authenticated" state
-  // and need to verify it with the server. If we know the user is unauthenticated
-  // (or have no cached state), skip the spinner and render the public layout immediately.
-  const initialIsLoading = cachedAuthState === "authenticated"
-
-  const [isAuthenticated, setIsAuthenticated] = useState(initialAuthState)
-  const [isLoading, setIsLoading] = useState(initialIsLoading)
+  // Use lazy initialisers so sessionStorage is only read on the client
+  // (never during SSR). This prevents the server/client HTML mismatch that
+  // causes the public-layout flash before the spinner appears on refresh.
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => {
+    if (typeof window === "undefined") return false
+    return sessionStorage.getItem(AUTH_STATE_KEY) === "authenticated"
+  })
+  const [isLoading, setIsLoading] = useState<boolean>(() => {
+    if (typeof window === "undefined") return false
+    return sessionStorage.getItem(AUTH_STATE_KEY) === "authenticated"
+  })
   const [customer, setCustomer] = useState<HttpTypes.StoreCustomer | null>(null)
   const [employee, setEmployee] = useState<Employee | null>(null)
 
