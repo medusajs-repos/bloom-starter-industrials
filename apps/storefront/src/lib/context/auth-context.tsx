@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect, useCallback, ReactNode } from "react"
+import { createContext, useContext, useState, useEffect, useLayoutEffect, useCallback, ReactNode } from "react"
 import { sdk } from "@/lib/utils/sdk"
 import { HttpTypes } from "@medusajs/types"
 import { getMe, Employee, CustomerWithEmployee } from "@/lib/data/me"
@@ -19,20 +19,28 @@ const AuthContext = createContext<AuthContextType | null>(null)
 // Key to track auth state to avoid loading flash on navigation
 const AUTH_STATE_KEY = "auth_state"
 
+// useLayoutEffect on client, useEffect on server (avoids SSR warning)
+const useIsomorphicLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect
+
 export function AuthProvider({ children }: { children: ReactNode }) {
-  // Use lazy initialisers so sessionStorage is only read on the client
-  // (never during SSR). This prevents the server/client HTML mismatch that
-  // causes the public-layout flash before the spinner appears on refresh.
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => {
-    if (typeof window === "undefined") return false
-    return sessionStorage.getItem(AUTH_STATE_KEY) === "authenticated"
-  })
-  const [isLoading, setIsLoading] = useState<boolean>(() => {
-    if (typeof window === "undefined") return false
-    return sessionStorage.getItem(AUTH_STATE_KEY) === "authenticated"
-  })
+  // Always start with false/false so server and client render identical HTML
+  // (prevents hydration mismatch). A useLayoutEffect immediately corrects the
+  // values on the client before the browser paints, so there is no flash.
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
   const [customer, setCustomer] = useState<HttpTypes.StoreCustomer | null>(null)
   const [employee, setEmployee] = useState<Employee | null>(null)
+
+  // Read sessionStorage synchronously on the client before first paint.
+  // This runs after hydration but before the browser paints, so the user
+  // never sees the public layout when they are already authenticated.
+  useIsomorphicLayoutEffect(() => {
+    const cached = sessionStorage.getItem(AUTH_STATE_KEY)
+    if (cached === "authenticated") {
+      setIsAuthenticated(true)
+      setIsLoading(true)
+    }
+  }, [])
 
   const fetchCustomer = useCallback(async () => {
     console.log("[AuthContext] fetchCustomer called")
