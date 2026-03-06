@@ -25,21 +25,11 @@ export default function Layout() {
     localStorage.setItem("sidebar_collapsed", String(newState))
   }
 
-  // Only show loading when we're loading AND we think the user might be authenticated
-  // This prevents loading flash for unauthenticated users on public pages
-  const cachedAuthState = typeof window !== "undefined" ? sessionStorage.getItem("auth_state") : null
-  const shouldShowLoading = isLoading && (cachedAuthState === "authenticated" || cachedAuthState === null)
-  
-  if (shouldShowLoading) {
-    return (
-      <div className="min-h-screen bg-gray-100 flex items-center justify-center">
-        <div className="animate-spin h-8 w-8 border-4 border-teal-600 border-t-transparent rounded-full"></div>
-      </div>
-    )
-  }
-
-  // For unauthenticated users, render public layout
-  if (!isAuthenticated) {
+  // While auth is still resolving, render the public layout optimistically.
+  // This avoids a full-page spinner on first load. If the user turns out to
+  // be authenticated, the layout will swap to the dashboard once isLoading
+  // becomes false — typically within a single render cycle.
+  if (isLoading || !isAuthenticated) {
     return (
       <PublicLayout>
         <Outlet />

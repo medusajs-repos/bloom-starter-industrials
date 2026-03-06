@@ -20,13 +20,16 @@ const AuthContext = createContext<AuthContextType | null>(null)
 const AUTH_STATE_KEY = "auth_state"
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  // Check cached auth state to avoid loading flash
+  // Restore last-known auth state from sessionStorage so that isAuthenticated
+  // is correct on the very first render (avoids unauthenticated flash for
+  // users who are already logged in within the same tab session).
   const cachedAuthState = typeof window !== "undefined" ? sessionStorage.getItem(AUTH_STATE_KEY) : null
   const initialAuthState = cachedAuthState === "authenticated"
-  
+
   const [isAuthenticated, setIsAuthenticated] = useState(initialAuthState)
-  // Only show loading on very first load when we don't know auth state
-  const [isLoading, setIsLoading] = useState(cachedAuthState === null)
+  // Always start loading so the layout knows to wait for the real answer.
+  // The public layout is rendered optimistically during this window.
+  const [isLoading, setIsLoading] = useState(true)
   const [customer, setCustomer] = useState<HttpTypes.StoreCustomer | null>(null)
   const [employee, setEmployee] = useState<Employee | null>(null)
 
