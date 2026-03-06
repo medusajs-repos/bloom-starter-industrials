@@ -25,11 +25,11 @@ export default function Layout() {
     localStorage.setItem("sidebar_collapsed", String(newState))
   }
 
-  // While auth is still resolving, render the public layout optimistically.
-  // This avoids a full-page spinner on first load. If the user turns out to
-  // be authenticated, the layout will swap to the dashboard once isLoading
-  // becomes false — typically within a single render cycle.
-  if (isLoading || !isAuthenticated) {
+  // If not authenticated (and not waiting on a cached "authenticated" state),
+  // render the public layout. When isLoading is true but the cached state
+  // already says authenticated, skip this branch so the dashboard renders
+  // immediately without a flash of the public layout.
+  if (!isAuthenticated) {
     return (
       <PublicLayout>
         <Outlet />
