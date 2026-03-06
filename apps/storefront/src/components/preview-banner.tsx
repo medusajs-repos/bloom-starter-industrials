@@ -5,7 +5,11 @@ import { useAuth } from "@/lib/hooks/use-auth"
 const DEMO_EMAIL = import.meta.env.VITE_PREVIEW_DEMO_EMAIL as string | undefined
 const DEMO_PASSWORD = import.meta.env.VITE_PREVIEW_DEMO_PASSWORD as string | undefined
 
-export function PreviewBanner() {
+interface PreviewBannerProps {
+  forceShow?: boolean
+}
+
+export function PreviewBanner({ forceShow = false }: PreviewBannerProps) {
   const [isDismissed, setIsDismissed] = useState(false)
   const [isLoggingIn, setIsLoggingIn] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -13,7 +17,7 @@ export function PreviewBanner() {
   const params = useParams({ strict: false }) as { countryCode?: string }
   const countryCode = params.countryCode || "us"
 
-  if (!import.meta.env.VITE_SHOW_BANNER_FOR_PREVIEW || isDismissed) {
+  if (!forceShow || isDismissed) {
     return null
   }
 
