@@ -10,8 +10,6 @@ export default function Layout() {
   const [isCollapsed, setIsCollapsed] = useState(false)
   const { isAuthenticated, isLoading, employee } = useAuth()
   
-  console.log("[Layout] render - isAuthenticated:", isAuthenticated, "isLoading:", isLoading)
-
   useEffect(() => {
     const savedState = localStorage.getItem("sidebar_collapsed")
     if (savedState !== null) {
@@ -25,10 +23,14 @@ export default function Layout() {
     localStorage.setItem("sidebar_collapsed", String(newState))
   }
 
-  // If not authenticated (and not waiting on a cached "authenticated" state),
-  // render the public layout. When isLoading is true but the cached state
-  // already says authenticated, skip this branch so the dashboard renders
-  // immediately without a flash of the public layout.
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-100">
+        <div className="w-8 h-8 border-4 border-gray-300 border-t-gray-700 rounded-full animate-spin" />
+      </div>
+    )
+  }
+
   if (!isAuthenticated) {
     return (
       <PublicLayout>
