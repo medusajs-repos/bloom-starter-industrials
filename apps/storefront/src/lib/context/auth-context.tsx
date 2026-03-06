@@ -25,11 +25,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   // users who are already logged in within the same tab session).
   const cachedAuthState = typeof window !== "undefined" ? sessionStorage.getItem(AUTH_STATE_KEY) : null
   const initialAuthState = cachedAuthState === "authenticated"
+  // Only show the loading spinner when we have a cached "authenticated" state
+  // and need to verify it with the server. If we know the user is unauthenticated
+  // (or have no cached state), skip the spinner and render the public layout immediately.
+  const initialIsLoading = cachedAuthState === "authenticated"
 
   const [isAuthenticated, setIsAuthenticated] = useState(initialAuthState)
-  // Always start loading so the layout knows to wait for the real answer.
-  // The public layout is rendered optimistically during this window.
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(initialIsLoading)
   const [customer, setCustomer] = useState<HttpTypes.StoreCustomer | null>(null)
   const [employee, setEmployee] = useState<Employee | null>(null)
 
@@ -93,9 +95,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     try {
       await sdk.auth.logout()
     } finally {
-      // Update cached state so navigation doesn't show loading
+      // Clear cached auth state so the next page load starts with isLoading=false
+      // and renders the public layout immediately without a spinner.
       if (typeof window !== "undefined") {
-        sessionStorage.setItem(AUTH_STATE_KEY, "unauthenticated")
+        sessionStorage.removeItem(AUTH_STATE_KEY)
       }
       setCustomer(null)
       setEmployee(null)
