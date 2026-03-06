@@ -1,4 +1,5 @@
 import Layout from "@/components/layout"
+import { ClientOnly } from "@/components/client-only"
 import { listRegions } from "@/lib/data/regions"
 import { CartProvider } from "@/lib/context/cart"
 import { AuthProvider } from "@/lib/context/auth-context"
@@ -58,14 +59,22 @@ function RootComponent() {
         <HeadContent />
       </head>
       <body>
-        <QueryClientProvider client={queryClient}>
-          <AuthProvider>
-            <CartProvider>
-              <Layout />
-            </CartProvider>
-          </AuthProvider>
-        </QueryClientProvider>
-        <Toaster position="bottom-right" richColors />
+        <ClientOnly
+          fallback={
+            <div className="min-h-screen flex items-center justify-center bg-gray-100">
+              <div className="w-8 h-8 border-4 border-teal-600/30 border-t-teal-600 rounded-full animate-spin" />
+            </div>
+          }
+        >
+          <QueryClientProvider client={queryClient}>
+            <AuthProvider>
+              <CartProvider>
+                <Layout />
+              </CartProvider>
+            </AuthProvider>
+          </QueryClientProvider>
+          <Toaster position="bottom-right" richColors />
+        </ClientOnly>
 
         <Scripts />
       </body>
