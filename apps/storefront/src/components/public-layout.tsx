@@ -8,8 +8,13 @@ interface PublicLayoutProps {
 
 export function PublicLayout({ children }: PublicLayoutProps) {
   const bannerFlag = import.meta.env.VITE_SHOW_BANNER_FOR_PREVIEW
-  // Show banner when the env var is "true" (string) — Vite bakes this at build/start time
-  const showBanner = bannerFlag === "true" || bannerFlag === true
+  // Show banner whenever the env var is defined (set in dev/preview, absent in production).
+  // Treat "false" and "0" as opt-out values.
+  const showBanner =
+    bannerFlag !== undefined &&
+    bannerFlag !== "false" &&
+    bannerFlag !== "0" &&
+    bannerFlag !== false
 
   return (
     <div className="min-h-screen bg-white flex flex-col">
