@@ -1,5 +1,4 @@
 import Layout from "@/components/layout"
-import { ClientOnly } from "@/components/client-only"
 import { listRegions } from "@/lib/data/regions"
 import { getServerAuthState, AuthState } from "@/lib/data/auth"
 import { CartProvider } from "@/lib/context/cart"
@@ -63,16 +62,14 @@ function RootComponent() {
         <HeadContent />
       </head>
       <body>
-        <ClientOnly>
-          <QueryClientProvider client={queryClient}>
-            <AuthProvider initialState={authState}>
-              <CartProvider>
-                <Layout />
-              </CartProvider>
-            </AuthProvider>
-          </QueryClientProvider>
-          <Toaster position="bottom-right" richColors />
-        </ClientOnly>
+        <QueryClientProvider client={queryClient}>
+          <AuthProvider initialState={authState}>
+            <CartProvider>
+              <Layout />
+            </CartProvider>
+          </AuthProvider>
+        </QueryClientProvider>
+        <Toaster position="bottom-right" richColors />
 
         <Scripts />
       </body>
