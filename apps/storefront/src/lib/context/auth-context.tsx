@@ -1,7 +1,7 @@
 import { createContext, useContext, useState, useCallback, ReactNode } from "react"
 import { sdk } from "@/lib/utils/sdk"
 import { getMe, Employee } from "@/lib/data/me"
-import { AuthState, SerializableCustomer } from "@/lib/data/auth"
+import { AuthState, SerializableCustomer, MEDUSA_JWT_COOKIE } from "@/lib/data/auth"
 
 interface AuthContextType {
   isAuthenticated: boolean
@@ -19,6 +19,17 @@ const AuthContext = createContext<AuthContextType | null>(null)
 interface AuthProviderProps {
   children: ReactNode
   initialState: AuthState
+}
+
+// Write the JWT to a first-party cookie so the TanStack Start server fn
+// can read it on subsequent SSR requests for server-side auth resolution.
+function setJwtCookie(token: string) {
+  const maxAge = 60 * 60 * 24 * 7 // 7 days
+  document.cookie = `${MEDUSA_JWT_COOKIE}=${encodeURIComponent(token)}; path=/; max-age=${maxAge}; SameSite=Lax`
+}
+
+function clearJwtCookie() {
+  document.cookie = `${MEDUSA_JWT_COOKIE}=; path=/; max-age=0; SameSite=Lax`
 }
 
 export function AuthProvider({ children, initialState }: AuthProviderProps) {
@@ -61,7 +72,11 @@ export function AuthProvider({ children, initialState }: AuthProviderProps) {
   }, [])
 
   const login = async (email: string, password: string) => {
-    await sdk.auth.login("customer", "emailpass", { email, password })
+    const token = await sdk.auth.login("customer", "emailpass", { email, password })
+    // Persist JWT in a first-party cookie for server-side auth resolution
+    if (token && typeof token === "string") {
+      setJwtCookie(token)
+    }
     await fetchCustomer()
   }
 
@@ -69,6 +84,7 @@ export function AuthProvider({ children, initialState }: AuthProviderProps) {
     try {
       await sdk.auth.logout()
     } finally {
+      clearJwtCookie()
       setCustomer(null)
       setEmployee(null)
       setIsAuthenticated(false)
