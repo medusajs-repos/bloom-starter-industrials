@@ -54,14 +54,6 @@ export default defineConfig(({ mode }) => {
       dedupe: ["react", "react-dom", "@tanstack/react-router"],
     },
 
-    server: {
-      proxy: {
-        "/medusa-api": {
-          target: process.env.VITE_MEDUSA_BACKEND_URL || "http://localhost:9000",
-          changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/medusa-api/, ""),
-        },
-      },
-    },
+
   };
 });
