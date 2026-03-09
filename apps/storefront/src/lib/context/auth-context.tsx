@@ -1,12 +1,12 @@
-import { createContext, useContext, useState, useEffect, useCallback, ReactNode } from "react"
+import { createContext, useContext, useState, useCallback, ReactNode } from "react"
 import { sdk } from "@/lib/utils/sdk"
-import { HttpTypes } from "@medusajs/types"
 import { getMe, Employee } from "@/lib/data/me"
+import { AuthState, SerializableCustomer } from "@/lib/data/auth"
 
 interface AuthContextType {
   isAuthenticated: boolean
   isLoading: boolean
-  customer: HttpTypes.StoreCustomer | null
+  customer: SerializableCustomer | null
   employee: Employee | null
   isAdmin: boolean
   login: (email: string, password: string) => Promise<void>
@@ -16,20 +16,25 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | null>(null)
 
-const AUTH_STATE_KEY = "auth_state"
-const MEDUSA_TOKEN_KEY = "medusa_auth_token"
+interface AuthProviderProps {
+  children: ReactNode
+  initialState: AuthState
+}
 
-export function AuthProvider({ children }: { children: ReactNode }) {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false)
-  const [isLoading, setIsLoading] = useState<boolean>(() => {
-    const hasToken = !!localStorage.getItem(MEDUSA_TOKEN_KEY)
-    const cachedState = sessionStorage.getItem(AUTH_STATE_KEY)
-    return hasToken || cachedState === "authenticated"
-  })
-  const [customer, setCustomer] = useState<HttpTypes.StoreCustomer | null>(null)
-  const [employee, setEmployee] = useState<Employee | null>(null)
+export function AuthProvider({ children, initialState }: AuthProviderProps) {
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(
+    initialState.isAuthenticated
+  )
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [customer, setCustomer] = useState<SerializableCustomer | null>(
+    initialState.customer
+  )
+  const [employee, setEmployee] = useState<Employee | null>(
+    initialState.employee
+  )
 
   const fetchCustomer = useCallback(async () => {
+    setIsLoading(true)
     try {
       const { customer } = await sdk.store.customer.retrieve()
 
@@ -40,32 +45,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           employeeData = customerWithEmployee.employee
         }
       } catch {
-        // Not a B2B customer or error fetching employee data
+        // Not a B2B customer
       }
 
-      setCustomer(customer)
+      setCustomer(customer as unknown as SerializableCustomer)
       setEmployee(employeeData)
       setIsAuthenticated(true)
-      sessionStorage.setItem(AUTH_STATE_KEY, "authenticated")
     } catch {
       setCustomer(null)
       setEmployee(null)
       setIsAuthenticated(false)
-      sessionStorage.setItem(AUTH_STATE_KEY, "unauthenticated")
     } finally {
       setIsLoading(false)
     }
   }, [])
-
-  useEffect(() => {
-    const hasToken = !!localStorage.getItem(MEDUSA_TOKEN_KEY)
-    if (!hasToken) {
-      sessionStorage.setItem(AUTH_STATE_KEY, "unauthenticated")
-      setIsLoading(false)
-      return
-    }
-    fetchCustomer()
-  }, [fetchCustomer])
 
   const login = async (email: string, password: string) => {
     await sdk.auth.login("customer", "emailpass", { email, password })
@@ -76,12 +69,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     try {
       await sdk.auth.logout()
     } finally {
-      localStorage.removeItem(MEDUSA_TOKEN_KEY)
-      sessionStorage.removeItem(AUTH_STATE_KEY)
       setCustomer(null)
       setEmployee(null)
       setIsAuthenticated(false)
-      setIsLoading(false)
     }
   }
 

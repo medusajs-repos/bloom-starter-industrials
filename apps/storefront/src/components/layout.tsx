@@ -8,7 +8,7 @@ import { OnboardingTour } from "./onboarding-tour"
 
 export default function Layout() {
   const [isCollapsed, setIsCollapsed] = useState(false)
-  const { isAuthenticated, isLoading, employee } = useAuth()
+  const { isAuthenticated, employee } = useAuth()
   
   useEffect(() => {
     const savedState = localStorage.getItem("sidebar_collapsed")
@@ -21,14 +21,6 @@ export default function Layout() {
     const newState = !isCollapsed
     setIsCollapsed(newState)
     localStorage.setItem("sidebar_collapsed", String(newState))
-  }
-
-  if (isLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-100">
-        <div className="w-8 h-8 border-4 border-teal-600/30 border-t-teal-600 rounded-full animate-spin" />
-      </div>
-    )
   }
 
   if (!isAuthenticated) {

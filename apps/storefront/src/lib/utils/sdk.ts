@@ -11,6 +11,6 @@ export const sdk = new Medusa({
   debug: import.meta.env.DEV,
   publishableKey: import.meta.env.VITE_MEDUSA_PUBLISHABLE_KEY,
   auth: {
-    type: "jwt",
+    type: "session",
   },
 })

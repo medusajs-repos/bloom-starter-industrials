@@ -1,6 +1,7 @@
 import Layout from "@/components/layout"
 import { ClientOnly } from "@/components/client-only"
 import { listRegions } from "@/lib/data/regions"
+import { getServerAuthState, AuthState } from "@/lib/data/auth"
 import { CartProvider } from "@/lib/context/cart"
 import { AuthProvider } from "@/lib/context/auth-context"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
@@ -20,14 +21,16 @@ export const Route = createRootRouteWithContext<{
 }>()({
   loader: async ({ context }) => {
     const { queryClient } = context
-    
-    // Pre-populate regions cache
-    await queryClient.ensureQueryData({
-      queryKey: ["regions"],
-      queryFn: () => listRegions({ fields: "id, name, currency_code, *countries" }),
-    })
-    
-    return {}
+
+    const [authState] = await Promise.all([
+      getServerAuthState(),
+      queryClient.ensureQueryData({
+        queryKey: ["regions"],
+        queryFn: () => listRegions({ fields: "id, name, currency_code, *countries" }),
+      }),
+    ])
+
+    return { authState }
   },
   head: () => ({
     links: [
@@ -52,6 +55,7 @@ export const Route = createRootRouteWithContext<{
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext()
+  const { authState } = Route.useLoaderData() as { authState: AuthState }
 
   return (
     <html lang="en">
@@ -61,7 +65,7 @@ function RootComponent() {
       <body>
         <ClientOnly>
           <QueryClientProvider client={queryClient}>
-            <AuthProvider>
+            <AuthProvider initialState={authState}>
               <CartProvider>
                 <Layout />
               </CartProvider>
