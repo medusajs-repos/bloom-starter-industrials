@@ -40,10 +40,12 @@ module.exports = defineConfig({
       authCors: process.env.AUTH_CORS!,
       jwtSecret: process.env.JWT_SECRET || "supersecret",
       cookieSecret: process.env.COOKIE_SECRET || "supersecret",
-      cookieOptions: {
-        sameSite: "none" as const,
-        secure: true,
-      },
+    },
+
+    // Top-level cookieOptions: Medusa reads this from projectConfig directly (not from http)
+    cookieOptions: {
+      sameSite: "none" as const,
+      secure: true,
     },
   },
   modules: [
