@@ -7,14 +7,16 @@ import { CompanyPendingScreen } from "./company-pending-screen"
 import { OnboardingTour } from "./onboarding-tour"
 
 export default function Layout() {
-  const [isCollapsed, setIsCollapsed] = useState(false)
   const { isAuthenticated, employee } = useAuth()
-  
+  const [isCollapsed, setIsCollapsed] = useState(false)
+  const [mounted, setMounted] = useState(false)
+
   useEffect(() => {
     const savedState = localStorage.getItem("sidebar_collapsed")
     if (savedState !== null) {
       setIsCollapsed(savedState === "true")
     }
+    setMounted(true)
   }, [])
 
   const toggleCollapsed = () => {
@@ -22,6 +24,8 @@ export default function Layout() {
     setIsCollapsed(newState)
     localStorage.setItem("sidebar_collapsed", String(newState))
   }
+
+  const collapsed = mounted ? isCollapsed : false
 
   if (!isAuthenticated) {
     return (
@@ -40,10 +44,10 @@ export default function Layout() {
   // Show authenticated dashboard layout
   return (
     <div className="min-h-screen bg-gray-100 flex">
-      <Sidebar countryCode="us" collapsed={isCollapsed} onToggle={toggleCollapsed} />
-      <main 
+      <Sidebar countryCode="us" collapsed={collapsed} onToggle={toggleCollapsed} />
+      <main
         className={`flex-1 transition-all duration-300 ${
-          isCollapsed ? "ml-[72px]" : "ml-[280px]"
+          collapsed ? "ml-[72px]" : "ml-[280px]"
         }`}
       >
         <Outlet />
