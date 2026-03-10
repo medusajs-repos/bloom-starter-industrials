@@ -1,7 +1,7 @@
 import { createContext, useContext, useState, useCallback, ReactNode } from "react"
 import { sdk } from "@/lib/utils/sdk"
-import { Employee } from "@/lib/data/me"
-import { AuthState, SerializableCustomer, getServerAuthState } from "@/lib/data/auth"
+import { getMe, Employee } from "@/lib/data/me"
+import { AuthState, SerializableCustomer } from "@/lib/data/auth"
 
 interface AuthContextType {
   isAuthenticated: boolean
@@ -33,15 +33,24 @@ export function AuthProvider({ children, initialState }: AuthProviderProps) {
     initialState.employee
   )
 
-  // Uses the server function so the session cookie is forwarded server-to-server,
-  // bypassing third-party cookie restrictions in the browser.
   const fetchCustomer = useCallback(async () => {
     setIsLoading(true)
     try {
-      const state = await getServerAuthState()
-      setCustomer(state.customer)
-      setEmployee(state.employee)
-      setIsAuthenticated(state.isAuthenticated)
+      const { customer } = await sdk.store.customer.retrieve()
+
+      let employeeData: Employee | null = null
+      try {
+        const { customer: customerWithEmployee } = await getMe()
+        if (customerWithEmployee.employee) {
+          employeeData = customerWithEmployee.employee
+        }
+      } catch {
+        // Not a B2B customer
+      }
+
+      setCustomer(customer as unknown as SerializableCustomer)
+      setEmployee(employeeData)
+      setIsAuthenticated(true)
     } catch {
       setCustomer(null)
       setEmployee(null)
@@ -52,8 +61,6 @@ export function AuthProvider({ children, initialState }: AuthProviderProps) {
   }, [])
 
   const login = async (email: string, password: string) => {
-    // sdk.auth.login goes to /medusa-api/auth/* (same-origin proxy), so the
-    // Set-Cookie response is treated as first-party and stored by the browser.
     await sdk.auth.login("customer", "emailpass", { email, password })
     await fetchCustomer()
   }

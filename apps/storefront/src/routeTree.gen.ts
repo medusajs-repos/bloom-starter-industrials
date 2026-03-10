@@ -17,7 +17,6 @@ import { Route as CountryCodeRouteImport } from './routes/$countryCode'
 import { Route as SplatRouteImport } from './routes/$'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as CountryCodeIndexRouteImport } from './routes/$countryCode/index'
-import { Route as MedusaApiSplatRouteImport } from './routes/medusa-api/$'
 import { Route as CountryCodeStoreRouteImport } from './routes/$countryCode/store'
 import { Route as CountryCodeSettingsRouteImport } from './routes/$countryCode/settings'
 import { Route as CountryCodeQuotesRouteImport } from './routes/$countryCode/quotes'
@@ -72,11 +71,6 @@ const CountryCodeIndexRoute = CountryCodeIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => CountryCodeRoute,
-} as any)
-const MedusaApiSplatRoute = MedusaApiSplatRouteImport.update({
-  id: '/medusa-api/$',
-  path: '/medusa-api/$',
-  getParentRoute: () => rootRouteImport,
 } as any)
 const CountryCodeStoreRoute = CountryCodeStoreRouteImport.update({
   id: '/store',
@@ -170,7 +164,6 @@ export interface FileRoutesByFullPath {
   '/$countryCode/quotes': typeof CountryCodeQuotesRoute
   '/$countryCode/settings': typeof CountryCodeSettingsRoute
   '/$countryCode/store': typeof CountryCodeStoreRoute
-  '/medusa-api/$': typeof MedusaApiSplatRoute
   '/$countryCode/': typeof CountryCodeIndexRoute
   '/$countryCode/account/accept-invite': typeof CountryCodeAccountAcceptInviteRoute
   '/$countryCode/account/login': typeof CountryCodeAccountLoginRoute
@@ -194,7 +187,6 @@ export interface FileRoutesByTo {
   '/$countryCode/quotes': typeof CountryCodeQuotesRoute
   '/$countryCode/settings': typeof CountryCodeSettingsRoute
   '/$countryCode/store': typeof CountryCodeStoreRoute
-  '/medusa-api/$': typeof MedusaApiSplatRoute
   '/$countryCode': typeof CountryCodeIndexRoute
   '/$countryCode/account/accept-invite': typeof CountryCodeAccountAcceptInviteRoute
   '/$countryCode/account/login': typeof CountryCodeAccountLoginRoute
@@ -220,7 +212,6 @@ export interface FileRoutesById {
   '/$countryCode/quotes': typeof CountryCodeQuotesRoute
   '/$countryCode/settings': typeof CountryCodeSettingsRoute
   '/$countryCode/store': typeof CountryCodeStoreRoute
-  '/medusa-api/$': typeof MedusaApiSplatRoute
   '/$countryCode/': typeof CountryCodeIndexRoute
   '/$countryCode/account/accept-invite': typeof CountryCodeAccountAcceptInviteRoute
   '/$countryCode/account/login': typeof CountryCodeAccountLoginRoute
@@ -247,7 +238,6 @@ export interface FileRouteTypes {
     | '/$countryCode/quotes'
     | '/$countryCode/settings'
     | '/$countryCode/store'
-    | '/medusa-api/$'
     | '/$countryCode/'
     | '/$countryCode/account/accept-invite'
     | '/$countryCode/account/login'
@@ -271,7 +261,6 @@ export interface FileRouteTypes {
     | '/$countryCode/quotes'
     | '/$countryCode/settings'
     | '/$countryCode/store'
-    | '/medusa-api/$'
     | '/$countryCode'
     | '/$countryCode/account/accept-invite'
     | '/$countryCode/account/login'
@@ -296,7 +285,6 @@ export interface FileRouteTypes {
     | '/$countryCode/quotes'
     | '/$countryCode/settings'
     | '/$countryCode/store'
-    | '/medusa-api/$'
     | '/$countryCode/'
     | '/$countryCode/account/accept-invite'
     | '/$countryCode/account/login'
@@ -315,7 +303,6 @@ export interface RootRouteChildren {
   CheckoutRoute: typeof CheckoutRoute
   HealthRoute: typeof HealthRoute
   StoreRoute: typeof StoreRoute
-  MedusaApiSplatRoute: typeof MedusaApiSplatRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -375,13 +362,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/$countryCode/'
       preLoaderRoute: typeof CountryCodeIndexRouteImport
       parentRoute: typeof CountryCodeRoute
-    }
-    '/medusa-api/$': {
-      id: '/medusa-api/$'
-      path: '/medusa-api/$'
-      fullPath: '/medusa-api/$'
-      preLoaderRoute: typeof MedusaApiSplatRouteImport
-      parentRoute: typeof rootRouteImport
     }
     '/$countryCode/store': {
       id: '/$countryCode/store'
@@ -532,7 +512,6 @@ const rootRouteChildren: RootRouteChildren = {
   CheckoutRoute: CheckoutRoute,
   HealthRoute: HealthRoute,
   StoreRoute: StoreRoute,
-  MedusaApiSplatRoute: MedusaApiSplatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
