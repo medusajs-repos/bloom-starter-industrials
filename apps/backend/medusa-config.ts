@@ -42,10 +42,15 @@ module.exports = defineConfig({
       cookieSecret: process.env.COOKIE_SECRET || "supersecret",
     },
 
-    // Top-level cookieOptions: Medusa reads this from projectConfig directly (not from http)
     cookieOptions: {
       sameSite: "none" as const,
       secure: true,
+    },
+
+    sessionOptions: {
+      resave: true,
+      saveUninitialized: true,
+      ttl: 10 * 60 * 60 * 1000,
     },
   },
   modules: [
