@@ -6,7 +6,7 @@ const ordersSearchSchema = z.object({
   orderId: z.string().optional(),
 })
 
-export const Route = createFileRoute("/$countryCode/orders")({
+export const Route = createFileRoute("/$countryCode/_protected/orders")({
   component: OrdersPage,
   validateSearch: ordersSearchSchema,
   head: () => {

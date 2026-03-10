@@ -2,7 +2,7 @@ import { createFileRoute, notFound } from "@tanstack/react-router"
 import Cart from "@/pages/cart"
 import { getRegion } from "@/lib/data/regions"
 
-export const Route = createFileRoute("/$countryCode/cart")({
+export const Route = createFileRoute("/$countryCode/_public/cart")({
   loader: async ({ params, context }) => {
     const { countryCode } = params
     const { queryClient } = context

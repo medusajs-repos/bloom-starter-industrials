@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router"
 import EmployeesPage from "@/pages/employees"
 
-export const Route = createFileRoute("/$countryCode/employees")({
+export const Route = createFileRoute("/$countryCode/_protected/employees")({
   component: EmployeesPage,
   head: () => {
     return {

@@ -3,14 +3,14 @@ import OrderConfirmationPage from "@/pages/order-confirmation"
 import { retrieveOrder } from "@/lib/data/order"
 import { queryKeys } from "@/lib/utils/query-keys"
 
-export const Route = createFileRoute("/$countryCode/order/$orderId/confirmed")({
+export const Route = createFileRoute("/$countryCode/_public/order/$orderId/confirmed")({
   loader: async ({ params, context }) => {
     const { countryCode, orderId } = params
     const { queryClient } = context
 
     const order = await queryClient.ensureQueryData({
       queryKey: queryKeys.orders.detail(orderId),
-      queryFn: () => retrieveOrder({ 
+      queryFn: () => retrieveOrder({
         order_id: orderId,
         fields: "+item_subtotal,+shipping_total,+discount_total,+tax_total,+total,*items,*items.variant,*items.product,*shipping_address,*billing_address,*shipping_methods,*payment_collections.payment_sessions"
       }),

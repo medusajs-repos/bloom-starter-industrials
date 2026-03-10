@@ -1,11 +1,11 @@
-import Layout from "@/components/layout"
-import { listRegions } from "@/lib/data/regions"
 import { getServerAuthState, AuthState } from "@/lib/data/auth"
+import { listRegions } from "@/lib/data/regions"
 import { CartProvider } from "@/lib/context/cart"
 import { AuthProvider } from "@/lib/context/auth-context"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import {
   HeadContent,
+  Outlet,
   Scripts,
   createRootRouteWithContext,
 } from "@tanstack/react-router"
@@ -41,10 +41,7 @@ export const Route = createRootRouteWithContext<{
     meta: [
       { title: "ProLift Equipment" },
       { charSet: "UTF-8" },
-      {
-        name: "viewport",
-        content: "width=device-width, initial-scale=1.0",
-      },
+      { name: "viewport", content: "width=device-width, initial-scale=1.0" },
     ],
     scripts: [],
   }),
@@ -65,12 +62,11 @@ function RootComponent() {
         <QueryClientProvider client={queryClient}>
           <AuthProvider initialState={authState}>
             <CartProvider>
-              <Layout />
+              <Outlet />
             </CartProvider>
           </AuthProvider>
         </QueryClientProvider>
         <Toaster position="bottom-right" richColors />
-
         <Scripts />
       </body>
     </html>

@@ -3,21 +3,15 @@ import Checkout from "@/pages/checkout"
 import { getRegion } from "@/lib/data/regions"
 import { CheckoutStepKey } from "@/lib/types/global"
 
-export const Route = createFileRoute("/$countryCode/checkout")({
+export const Route = createFileRoute("/$countryCode/_public/checkout")({
   validateSearch: (search) => {
     let step = search.step
     if (!Object.values(CheckoutStepKey).includes(step as CheckoutStepKey)) {
       step = "addresses"
     }
-    return {
-      step,
-    }
+    return { step }
   },
-  loaderDeps: ({ search: { step } }) => {
-    return {
-      step,
-    }
-  },
+  loaderDeps: ({ search: { step } }) => ({ step }),
   loader: async ({ params, context, deps }) => {
     const { countryCode } = params
     const { queryClient } = context
@@ -32,11 +26,7 @@ export const Route = createFileRoute("/$countryCode/checkout")({
       throw notFound()
     }
 
-    return {
-      region,
-      countryCode,
-      step,
-    }
+    return { region, countryCode, step }
   },
   component: Checkout,
 })

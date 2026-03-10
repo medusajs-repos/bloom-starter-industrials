@@ -16,21 +16,23 @@ import { Route as CartRouteImport } from './routes/cart'
 import { Route as CountryCodeRouteImport } from './routes/$countryCode'
 import { Route as SplatRouteImport } from './routes/$'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as CountryCodeIndexRouteImport } from './routes/$countryCode/index'
-import { Route as CountryCodeStoreRouteImport } from './routes/$countryCode/store'
-import { Route as CountryCodeSettingsRouteImport } from './routes/$countryCode/settings'
-import { Route as CountryCodeQuotesRouteImport } from './routes/$countryCode/quotes'
-import { Route as CountryCodeOrdersRouteImport } from './routes/$countryCode/orders'
-import { Route as CountryCodeEmployeesRouteImport } from './routes/$countryCode/employees'
-import { Route as CountryCodeCheckoutRouteImport } from './routes/$countryCode/checkout'
-import { Route as CountryCodeCartRouteImport } from './routes/$countryCode/cart'
-import { Route as CountryCodeProductsHandleRouteImport } from './routes/$countryCode/products/$handle'
-import { Route as CountryCodeCategoriesHandleRouteImport } from './routes/$countryCode/categories/$handle'
-import { Route as CountryCodeAccountRegisterRouteImport } from './routes/$countryCode/account/register'
-import { Route as CountryCodeAccountLoginRouteImport } from './routes/$countryCode/account/login'
-import { Route as CountryCodeAccountAcceptInviteRouteImport } from './routes/$countryCode/account/accept-invite'
-import { Route as CountryCodeOrderOrderIdPaymentRouteImport } from './routes/$countryCode/order/$orderId/payment'
-import { Route as CountryCodeOrderOrderIdConfirmedRouteImport } from './routes/$countryCode/order/$orderId/confirmed'
+import { Route as CountryCodePublicRouteImport } from './routes/$countryCode/_public'
+import { Route as CountryCodeProtectedRouteImport } from './routes/$countryCode/_protected'
+import { Route as CountryCodeProtectedIndexRouteImport } from './routes/$countryCode/_protected/index'
+import { Route as CountryCodePublicStoreRouteImport } from './routes/$countryCode/_public/store'
+import { Route as CountryCodePublicCheckoutRouteImport } from './routes/$countryCode/_public/checkout'
+import { Route as CountryCodePublicCartRouteImport } from './routes/$countryCode/_public/cart'
+import { Route as CountryCodeProtectedSettingsRouteImport } from './routes/$countryCode/_protected/settings'
+import { Route as CountryCodeProtectedQuotesRouteImport } from './routes/$countryCode/_protected/quotes'
+import { Route as CountryCodeProtectedOrdersRouteImport } from './routes/$countryCode/_protected/orders'
+import { Route as CountryCodeProtectedEmployeesRouteImport } from './routes/$countryCode/_protected/employees'
+import { Route as CountryCodePublicProductsHandleRouteImport } from './routes/$countryCode/_public/products/$handle'
+import { Route as CountryCodePublicCategoriesHandleRouteImport } from './routes/$countryCode/_public/categories/$handle'
+import { Route as CountryCodePublicAccountRegisterRouteImport } from './routes/$countryCode/_public/account/register'
+import { Route as CountryCodePublicAccountLoginRouteImport } from './routes/$countryCode/_public/account/login'
+import { Route as CountryCodePublicAccountAcceptInviteRouteImport } from './routes/$countryCode/_public/account/accept-invite'
+import { Route as CountryCodePublicOrderOrderIdPaymentRouteImport } from './routes/$countryCode/_public/order/$orderId/payment'
+import { Route as CountryCodePublicOrderOrderIdConfirmedRouteImport } from './routes/$countryCode/_public/order/$orderId/confirmed'
 
 const StoreRoute = StoreRouteImport.update({
   id: '/store',
@@ -67,134 +69,149 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const CountryCodeIndexRoute = CountryCodeIndexRouteImport.update({
-  id: '/',
-  path: '/',
+const CountryCodePublicRoute = CountryCodePublicRouteImport.update({
+  id: '/_public',
   getParentRoute: () => CountryCodeRoute,
 } as any)
-const CountryCodeStoreRoute = CountryCodeStoreRouteImport.update({
+const CountryCodeProtectedRoute = CountryCodeProtectedRouteImport.update({
+  id: '/_protected',
+  getParentRoute: () => CountryCodeRoute,
+} as any)
+const CountryCodeProtectedIndexRoute =
+  CountryCodeProtectedIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => CountryCodeProtectedRoute,
+  } as any)
+const CountryCodePublicStoreRoute = CountryCodePublicStoreRouteImport.update({
   id: '/store',
   path: '/store',
-  getParentRoute: () => CountryCodeRoute,
+  getParentRoute: () => CountryCodePublicRoute,
 } as any)
-const CountryCodeSettingsRoute = CountryCodeSettingsRouteImport.update({
-  id: '/settings',
-  path: '/settings',
-  getParentRoute: () => CountryCodeRoute,
-} as any)
-const CountryCodeQuotesRoute = CountryCodeQuotesRouteImport.update({
-  id: '/quotes',
-  path: '/quotes',
-  getParentRoute: () => CountryCodeRoute,
-} as any)
-const CountryCodeOrdersRoute = CountryCodeOrdersRouteImport.update({
-  id: '/orders',
-  path: '/orders',
-  getParentRoute: () => CountryCodeRoute,
-} as any)
-const CountryCodeEmployeesRoute = CountryCodeEmployeesRouteImport.update({
-  id: '/employees',
-  path: '/employees',
-  getParentRoute: () => CountryCodeRoute,
-} as any)
-const CountryCodeCheckoutRoute = CountryCodeCheckoutRouteImport.update({
-  id: '/checkout',
-  path: '/checkout',
-  getParentRoute: () => CountryCodeRoute,
-} as any)
-const CountryCodeCartRoute = CountryCodeCartRouteImport.update({
+const CountryCodePublicCheckoutRoute =
+  CountryCodePublicCheckoutRouteImport.update({
+    id: '/checkout',
+    path: '/checkout',
+    getParentRoute: () => CountryCodePublicRoute,
+  } as any)
+const CountryCodePublicCartRoute = CountryCodePublicCartRouteImport.update({
   id: '/cart',
   path: '/cart',
-  getParentRoute: () => CountryCodeRoute,
+  getParentRoute: () => CountryCodePublicRoute,
 } as any)
-const CountryCodeProductsHandleRoute =
-  CountryCodeProductsHandleRouteImport.update({
+const CountryCodeProtectedSettingsRoute =
+  CountryCodeProtectedSettingsRouteImport.update({
+    id: '/settings',
+    path: '/settings',
+    getParentRoute: () => CountryCodeProtectedRoute,
+  } as any)
+const CountryCodeProtectedQuotesRoute =
+  CountryCodeProtectedQuotesRouteImport.update({
+    id: '/quotes',
+    path: '/quotes',
+    getParentRoute: () => CountryCodeProtectedRoute,
+  } as any)
+const CountryCodeProtectedOrdersRoute =
+  CountryCodeProtectedOrdersRouteImport.update({
+    id: '/orders',
+    path: '/orders',
+    getParentRoute: () => CountryCodeProtectedRoute,
+  } as any)
+const CountryCodeProtectedEmployeesRoute =
+  CountryCodeProtectedEmployeesRouteImport.update({
+    id: '/employees',
+    path: '/employees',
+    getParentRoute: () => CountryCodeProtectedRoute,
+  } as any)
+const CountryCodePublicProductsHandleRoute =
+  CountryCodePublicProductsHandleRouteImport.update({
     id: '/products/$handle',
     path: '/products/$handle',
-    getParentRoute: () => CountryCodeRoute,
+    getParentRoute: () => CountryCodePublicRoute,
   } as any)
-const CountryCodeCategoriesHandleRoute =
-  CountryCodeCategoriesHandleRouteImport.update({
+const CountryCodePublicCategoriesHandleRoute =
+  CountryCodePublicCategoriesHandleRouteImport.update({
     id: '/categories/$handle',
     path: '/categories/$handle',
-    getParentRoute: () => CountryCodeRoute,
+    getParentRoute: () => CountryCodePublicRoute,
   } as any)
-const CountryCodeAccountRegisterRoute =
-  CountryCodeAccountRegisterRouteImport.update({
+const CountryCodePublicAccountRegisterRoute =
+  CountryCodePublicAccountRegisterRouteImport.update({
     id: '/account/register',
     path: '/account/register',
-    getParentRoute: () => CountryCodeRoute,
+    getParentRoute: () => CountryCodePublicRoute,
   } as any)
-const CountryCodeAccountLoginRoute = CountryCodeAccountLoginRouteImport.update({
-  id: '/account/login',
-  path: '/account/login',
-  getParentRoute: () => CountryCodeRoute,
-} as any)
-const CountryCodeAccountAcceptInviteRoute =
-  CountryCodeAccountAcceptInviteRouteImport.update({
+const CountryCodePublicAccountLoginRoute =
+  CountryCodePublicAccountLoginRouteImport.update({
+    id: '/account/login',
+    path: '/account/login',
+    getParentRoute: () => CountryCodePublicRoute,
+  } as any)
+const CountryCodePublicAccountAcceptInviteRoute =
+  CountryCodePublicAccountAcceptInviteRouteImport.update({
     id: '/account/accept-invite',
     path: '/account/accept-invite',
-    getParentRoute: () => CountryCodeRoute,
+    getParentRoute: () => CountryCodePublicRoute,
   } as any)
-const CountryCodeOrderOrderIdPaymentRoute =
-  CountryCodeOrderOrderIdPaymentRouteImport.update({
+const CountryCodePublicOrderOrderIdPaymentRoute =
+  CountryCodePublicOrderOrderIdPaymentRouteImport.update({
     id: '/order/$orderId/payment',
     path: '/order/$orderId/payment',
-    getParentRoute: () => CountryCodeRoute,
+    getParentRoute: () => CountryCodePublicRoute,
   } as any)
-const CountryCodeOrderOrderIdConfirmedRoute =
-  CountryCodeOrderOrderIdConfirmedRouteImport.update({
+const CountryCodePublicOrderOrderIdConfirmedRoute =
+  CountryCodePublicOrderOrderIdConfirmedRouteImport.update({
     id: '/order/$orderId/confirmed',
     path: '/order/$orderId/confirmed',
-    getParentRoute: () => CountryCodeRoute,
+    getParentRoute: () => CountryCodePublicRoute,
   } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/$': typeof SplatRoute
-  '/$countryCode': typeof CountryCodeRouteWithChildren
+  '/$countryCode': typeof CountryCodePublicRouteWithChildren
   '/cart': typeof CartRoute
   '/checkout': typeof CheckoutRoute
   '/health': typeof HealthRoute
   '/store': typeof StoreRoute
-  '/$countryCode/cart': typeof CountryCodeCartRoute
-  '/$countryCode/checkout': typeof CountryCodeCheckoutRoute
-  '/$countryCode/employees': typeof CountryCodeEmployeesRoute
-  '/$countryCode/orders': typeof CountryCodeOrdersRoute
-  '/$countryCode/quotes': typeof CountryCodeQuotesRoute
-  '/$countryCode/settings': typeof CountryCodeSettingsRoute
-  '/$countryCode/store': typeof CountryCodeStoreRoute
-  '/$countryCode/': typeof CountryCodeIndexRoute
-  '/$countryCode/account/accept-invite': typeof CountryCodeAccountAcceptInviteRoute
-  '/$countryCode/account/login': typeof CountryCodeAccountLoginRoute
-  '/$countryCode/account/register': typeof CountryCodeAccountRegisterRoute
-  '/$countryCode/categories/$handle': typeof CountryCodeCategoriesHandleRoute
-  '/$countryCode/products/$handle': typeof CountryCodeProductsHandleRoute
-  '/$countryCode/order/$orderId/confirmed': typeof CountryCodeOrderOrderIdConfirmedRoute
-  '/$countryCode/order/$orderId/payment': typeof CountryCodeOrderOrderIdPaymentRoute
+  '/$countryCode/employees': typeof CountryCodeProtectedEmployeesRoute
+  '/$countryCode/orders': typeof CountryCodeProtectedOrdersRoute
+  '/$countryCode/quotes': typeof CountryCodeProtectedQuotesRoute
+  '/$countryCode/settings': typeof CountryCodeProtectedSettingsRoute
+  '/$countryCode/cart': typeof CountryCodePublicCartRoute
+  '/$countryCode/checkout': typeof CountryCodePublicCheckoutRoute
+  '/$countryCode/store': typeof CountryCodePublicStoreRoute
+  '/$countryCode/': typeof CountryCodeProtectedIndexRoute
+  '/$countryCode/account/accept-invite': typeof CountryCodePublicAccountAcceptInviteRoute
+  '/$countryCode/account/login': typeof CountryCodePublicAccountLoginRoute
+  '/$countryCode/account/register': typeof CountryCodePublicAccountRegisterRoute
+  '/$countryCode/categories/$handle': typeof CountryCodePublicCategoriesHandleRoute
+  '/$countryCode/products/$handle': typeof CountryCodePublicProductsHandleRoute
+  '/$countryCode/order/$orderId/confirmed': typeof CountryCodePublicOrderOrderIdConfirmedRoute
+  '/$countryCode/order/$orderId/payment': typeof CountryCodePublicOrderOrderIdPaymentRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/$': typeof SplatRoute
+  '/$countryCode': typeof CountryCodeProtectedIndexRoute
   '/cart': typeof CartRoute
   '/checkout': typeof CheckoutRoute
   '/health': typeof HealthRoute
   '/store': typeof StoreRoute
-  '/$countryCode/cart': typeof CountryCodeCartRoute
-  '/$countryCode/checkout': typeof CountryCodeCheckoutRoute
-  '/$countryCode/employees': typeof CountryCodeEmployeesRoute
-  '/$countryCode/orders': typeof CountryCodeOrdersRoute
-  '/$countryCode/quotes': typeof CountryCodeQuotesRoute
-  '/$countryCode/settings': typeof CountryCodeSettingsRoute
-  '/$countryCode/store': typeof CountryCodeStoreRoute
-  '/$countryCode': typeof CountryCodeIndexRoute
-  '/$countryCode/account/accept-invite': typeof CountryCodeAccountAcceptInviteRoute
-  '/$countryCode/account/login': typeof CountryCodeAccountLoginRoute
-  '/$countryCode/account/register': typeof CountryCodeAccountRegisterRoute
-  '/$countryCode/categories/$handle': typeof CountryCodeCategoriesHandleRoute
-  '/$countryCode/products/$handle': typeof CountryCodeProductsHandleRoute
-  '/$countryCode/order/$orderId/confirmed': typeof CountryCodeOrderOrderIdConfirmedRoute
-  '/$countryCode/order/$orderId/payment': typeof CountryCodeOrderOrderIdPaymentRoute
+  '/$countryCode/employees': typeof CountryCodeProtectedEmployeesRoute
+  '/$countryCode/orders': typeof CountryCodeProtectedOrdersRoute
+  '/$countryCode/quotes': typeof CountryCodeProtectedQuotesRoute
+  '/$countryCode/settings': typeof CountryCodeProtectedSettingsRoute
+  '/$countryCode/cart': typeof CountryCodePublicCartRoute
+  '/$countryCode/checkout': typeof CountryCodePublicCheckoutRoute
+  '/$countryCode/store': typeof CountryCodePublicStoreRoute
+  '/$countryCode/account/accept-invite': typeof CountryCodePublicAccountAcceptInviteRoute
+  '/$countryCode/account/login': typeof CountryCodePublicAccountLoginRoute
+  '/$countryCode/account/register': typeof CountryCodePublicAccountRegisterRoute
+  '/$countryCode/categories/$handle': typeof CountryCodePublicCategoriesHandleRoute
+  '/$countryCode/products/$handle': typeof CountryCodePublicProductsHandleRoute
+  '/$countryCode/order/$orderId/confirmed': typeof CountryCodePublicOrderOrderIdConfirmedRoute
+  '/$countryCode/order/$orderId/payment': typeof CountryCodePublicOrderOrderIdPaymentRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -205,21 +222,23 @@ export interface FileRoutesById {
   '/checkout': typeof CheckoutRoute
   '/health': typeof HealthRoute
   '/store': typeof StoreRoute
-  '/$countryCode/cart': typeof CountryCodeCartRoute
-  '/$countryCode/checkout': typeof CountryCodeCheckoutRoute
-  '/$countryCode/employees': typeof CountryCodeEmployeesRoute
-  '/$countryCode/orders': typeof CountryCodeOrdersRoute
-  '/$countryCode/quotes': typeof CountryCodeQuotesRoute
-  '/$countryCode/settings': typeof CountryCodeSettingsRoute
-  '/$countryCode/store': typeof CountryCodeStoreRoute
-  '/$countryCode/': typeof CountryCodeIndexRoute
-  '/$countryCode/account/accept-invite': typeof CountryCodeAccountAcceptInviteRoute
-  '/$countryCode/account/login': typeof CountryCodeAccountLoginRoute
-  '/$countryCode/account/register': typeof CountryCodeAccountRegisterRoute
-  '/$countryCode/categories/$handle': typeof CountryCodeCategoriesHandleRoute
-  '/$countryCode/products/$handle': typeof CountryCodeProductsHandleRoute
-  '/$countryCode/order/$orderId/confirmed': typeof CountryCodeOrderOrderIdConfirmedRoute
-  '/$countryCode/order/$orderId/payment': typeof CountryCodeOrderOrderIdPaymentRoute
+  '/$countryCode/_protected': typeof CountryCodeProtectedRouteWithChildren
+  '/$countryCode/_public': typeof CountryCodePublicRouteWithChildren
+  '/$countryCode/_protected/employees': typeof CountryCodeProtectedEmployeesRoute
+  '/$countryCode/_protected/orders': typeof CountryCodeProtectedOrdersRoute
+  '/$countryCode/_protected/quotes': typeof CountryCodeProtectedQuotesRoute
+  '/$countryCode/_protected/settings': typeof CountryCodeProtectedSettingsRoute
+  '/$countryCode/_public/cart': typeof CountryCodePublicCartRoute
+  '/$countryCode/_public/checkout': typeof CountryCodePublicCheckoutRoute
+  '/$countryCode/_public/store': typeof CountryCodePublicStoreRoute
+  '/$countryCode/_protected/': typeof CountryCodeProtectedIndexRoute
+  '/$countryCode/_public/account/accept-invite': typeof CountryCodePublicAccountAcceptInviteRoute
+  '/$countryCode/_public/account/login': typeof CountryCodePublicAccountLoginRoute
+  '/$countryCode/_public/account/register': typeof CountryCodePublicAccountRegisterRoute
+  '/$countryCode/_public/categories/$handle': typeof CountryCodePublicCategoriesHandleRoute
+  '/$countryCode/_public/products/$handle': typeof CountryCodePublicProductsHandleRoute
+  '/$countryCode/_public/order/$orderId/confirmed': typeof CountryCodePublicOrderOrderIdConfirmedRoute
+  '/$countryCode/_public/order/$orderId/payment': typeof CountryCodePublicOrderOrderIdPaymentRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -231,12 +250,12 @@ export interface FileRouteTypes {
     | '/checkout'
     | '/health'
     | '/store'
-    | '/$countryCode/cart'
-    | '/$countryCode/checkout'
     | '/$countryCode/employees'
     | '/$countryCode/orders'
     | '/$countryCode/quotes'
     | '/$countryCode/settings'
+    | '/$countryCode/cart'
+    | '/$countryCode/checkout'
     | '/$countryCode/store'
     | '/$countryCode/'
     | '/$countryCode/account/accept-invite'
@@ -250,18 +269,18 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/$'
+    | '/$countryCode'
     | '/cart'
     | '/checkout'
     | '/health'
     | '/store'
-    | '/$countryCode/cart'
-    | '/$countryCode/checkout'
     | '/$countryCode/employees'
     | '/$countryCode/orders'
     | '/$countryCode/quotes'
     | '/$countryCode/settings'
+    | '/$countryCode/cart'
+    | '/$countryCode/checkout'
     | '/$countryCode/store'
-    | '/$countryCode'
     | '/$countryCode/account/accept-invite'
     | '/$countryCode/account/login'
     | '/$countryCode/account/register'
@@ -278,21 +297,23 @@ export interface FileRouteTypes {
     | '/checkout'
     | '/health'
     | '/store'
-    | '/$countryCode/cart'
-    | '/$countryCode/checkout'
-    | '/$countryCode/employees'
-    | '/$countryCode/orders'
-    | '/$countryCode/quotes'
-    | '/$countryCode/settings'
-    | '/$countryCode/store'
-    | '/$countryCode/'
-    | '/$countryCode/account/accept-invite'
-    | '/$countryCode/account/login'
-    | '/$countryCode/account/register'
-    | '/$countryCode/categories/$handle'
-    | '/$countryCode/products/$handle'
-    | '/$countryCode/order/$orderId/confirmed'
-    | '/$countryCode/order/$orderId/payment'
+    | '/$countryCode/_protected'
+    | '/$countryCode/_public'
+    | '/$countryCode/_protected/employees'
+    | '/$countryCode/_protected/orders'
+    | '/$countryCode/_protected/quotes'
+    | '/$countryCode/_protected/settings'
+    | '/$countryCode/_public/cart'
+    | '/$countryCode/_public/checkout'
+    | '/$countryCode/_public/store'
+    | '/$countryCode/_protected/'
+    | '/$countryCode/_public/account/accept-invite'
+    | '/$countryCode/_public/account/login'
+    | '/$countryCode/_public/account/register'
+    | '/$countryCode/_public/categories/$handle'
+    | '/$countryCode/_public/products/$handle'
+    | '/$countryCode/_public/order/$orderId/confirmed'
+    | '/$countryCode/_public/order/$orderId/payment'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -356,148 +377,188 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/$countryCode/': {
-      id: '/$countryCode/'
+    '/$countryCode/_public': {
+      id: '/$countryCode/_public'
+      path: ''
+      fullPath: '/$countryCode'
+      preLoaderRoute: typeof CountryCodePublicRouteImport
+      parentRoute: typeof CountryCodeRoute
+    }
+    '/$countryCode/_protected': {
+      id: '/$countryCode/_protected'
+      path: ''
+      fullPath: '/$countryCode'
+      preLoaderRoute: typeof CountryCodeProtectedRouteImport
+      parentRoute: typeof CountryCodeRoute
+    }
+    '/$countryCode/_protected/': {
+      id: '/$countryCode/_protected/'
       path: '/'
       fullPath: '/$countryCode/'
-      preLoaderRoute: typeof CountryCodeIndexRouteImport
-      parentRoute: typeof CountryCodeRoute
+      preLoaderRoute: typeof CountryCodeProtectedIndexRouteImport
+      parentRoute: typeof CountryCodeProtectedRoute
     }
-    '/$countryCode/store': {
-      id: '/$countryCode/store'
+    '/$countryCode/_public/store': {
+      id: '/$countryCode/_public/store'
       path: '/store'
       fullPath: '/$countryCode/store'
-      preLoaderRoute: typeof CountryCodeStoreRouteImport
-      parentRoute: typeof CountryCodeRoute
+      preLoaderRoute: typeof CountryCodePublicStoreRouteImport
+      parentRoute: typeof CountryCodePublicRoute
     }
-    '/$countryCode/settings': {
-      id: '/$countryCode/settings'
-      path: '/settings'
-      fullPath: '/$countryCode/settings'
-      preLoaderRoute: typeof CountryCodeSettingsRouteImport
-      parentRoute: typeof CountryCodeRoute
-    }
-    '/$countryCode/quotes': {
-      id: '/$countryCode/quotes'
-      path: '/quotes'
-      fullPath: '/$countryCode/quotes'
-      preLoaderRoute: typeof CountryCodeQuotesRouteImport
-      parentRoute: typeof CountryCodeRoute
-    }
-    '/$countryCode/orders': {
-      id: '/$countryCode/orders'
-      path: '/orders'
-      fullPath: '/$countryCode/orders'
-      preLoaderRoute: typeof CountryCodeOrdersRouteImport
-      parentRoute: typeof CountryCodeRoute
-    }
-    '/$countryCode/employees': {
-      id: '/$countryCode/employees'
-      path: '/employees'
-      fullPath: '/$countryCode/employees'
-      preLoaderRoute: typeof CountryCodeEmployeesRouteImport
-      parentRoute: typeof CountryCodeRoute
-    }
-    '/$countryCode/checkout': {
-      id: '/$countryCode/checkout'
+    '/$countryCode/_public/checkout': {
+      id: '/$countryCode/_public/checkout'
       path: '/checkout'
       fullPath: '/$countryCode/checkout'
-      preLoaderRoute: typeof CountryCodeCheckoutRouteImport
-      parentRoute: typeof CountryCodeRoute
+      preLoaderRoute: typeof CountryCodePublicCheckoutRouteImport
+      parentRoute: typeof CountryCodePublicRoute
     }
-    '/$countryCode/cart': {
-      id: '/$countryCode/cart'
+    '/$countryCode/_public/cart': {
+      id: '/$countryCode/_public/cart'
       path: '/cart'
       fullPath: '/$countryCode/cart'
-      preLoaderRoute: typeof CountryCodeCartRouteImport
-      parentRoute: typeof CountryCodeRoute
+      preLoaderRoute: typeof CountryCodePublicCartRouteImport
+      parentRoute: typeof CountryCodePublicRoute
     }
-    '/$countryCode/products/$handle': {
-      id: '/$countryCode/products/$handle'
+    '/$countryCode/_protected/settings': {
+      id: '/$countryCode/_protected/settings'
+      path: '/settings'
+      fullPath: '/$countryCode/settings'
+      preLoaderRoute: typeof CountryCodeProtectedSettingsRouteImport
+      parentRoute: typeof CountryCodeProtectedRoute
+    }
+    '/$countryCode/_protected/quotes': {
+      id: '/$countryCode/_protected/quotes'
+      path: '/quotes'
+      fullPath: '/$countryCode/quotes'
+      preLoaderRoute: typeof CountryCodeProtectedQuotesRouteImport
+      parentRoute: typeof CountryCodeProtectedRoute
+    }
+    '/$countryCode/_protected/orders': {
+      id: '/$countryCode/_protected/orders'
+      path: '/orders'
+      fullPath: '/$countryCode/orders'
+      preLoaderRoute: typeof CountryCodeProtectedOrdersRouteImport
+      parentRoute: typeof CountryCodeProtectedRoute
+    }
+    '/$countryCode/_protected/employees': {
+      id: '/$countryCode/_protected/employees'
+      path: '/employees'
+      fullPath: '/$countryCode/employees'
+      preLoaderRoute: typeof CountryCodeProtectedEmployeesRouteImport
+      parentRoute: typeof CountryCodeProtectedRoute
+    }
+    '/$countryCode/_public/products/$handle': {
+      id: '/$countryCode/_public/products/$handle'
       path: '/products/$handle'
       fullPath: '/$countryCode/products/$handle'
-      preLoaderRoute: typeof CountryCodeProductsHandleRouteImport
-      parentRoute: typeof CountryCodeRoute
+      preLoaderRoute: typeof CountryCodePublicProductsHandleRouteImport
+      parentRoute: typeof CountryCodePublicRoute
     }
-    '/$countryCode/categories/$handle': {
-      id: '/$countryCode/categories/$handle'
+    '/$countryCode/_public/categories/$handle': {
+      id: '/$countryCode/_public/categories/$handle'
       path: '/categories/$handle'
       fullPath: '/$countryCode/categories/$handle'
-      preLoaderRoute: typeof CountryCodeCategoriesHandleRouteImport
-      parentRoute: typeof CountryCodeRoute
+      preLoaderRoute: typeof CountryCodePublicCategoriesHandleRouteImport
+      parentRoute: typeof CountryCodePublicRoute
     }
-    '/$countryCode/account/register': {
-      id: '/$countryCode/account/register'
+    '/$countryCode/_public/account/register': {
+      id: '/$countryCode/_public/account/register'
       path: '/account/register'
       fullPath: '/$countryCode/account/register'
-      preLoaderRoute: typeof CountryCodeAccountRegisterRouteImport
-      parentRoute: typeof CountryCodeRoute
+      preLoaderRoute: typeof CountryCodePublicAccountRegisterRouteImport
+      parentRoute: typeof CountryCodePublicRoute
     }
-    '/$countryCode/account/login': {
-      id: '/$countryCode/account/login'
+    '/$countryCode/_public/account/login': {
+      id: '/$countryCode/_public/account/login'
       path: '/account/login'
       fullPath: '/$countryCode/account/login'
-      preLoaderRoute: typeof CountryCodeAccountLoginRouteImport
-      parentRoute: typeof CountryCodeRoute
+      preLoaderRoute: typeof CountryCodePublicAccountLoginRouteImport
+      parentRoute: typeof CountryCodePublicRoute
     }
-    '/$countryCode/account/accept-invite': {
-      id: '/$countryCode/account/accept-invite'
+    '/$countryCode/_public/account/accept-invite': {
+      id: '/$countryCode/_public/account/accept-invite'
       path: '/account/accept-invite'
       fullPath: '/$countryCode/account/accept-invite'
-      preLoaderRoute: typeof CountryCodeAccountAcceptInviteRouteImport
-      parentRoute: typeof CountryCodeRoute
+      preLoaderRoute: typeof CountryCodePublicAccountAcceptInviteRouteImport
+      parentRoute: typeof CountryCodePublicRoute
     }
-    '/$countryCode/order/$orderId/payment': {
-      id: '/$countryCode/order/$orderId/payment'
+    '/$countryCode/_public/order/$orderId/payment': {
+      id: '/$countryCode/_public/order/$orderId/payment'
       path: '/order/$orderId/payment'
       fullPath: '/$countryCode/order/$orderId/payment'
-      preLoaderRoute: typeof CountryCodeOrderOrderIdPaymentRouteImport
-      parentRoute: typeof CountryCodeRoute
+      preLoaderRoute: typeof CountryCodePublicOrderOrderIdPaymentRouteImport
+      parentRoute: typeof CountryCodePublicRoute
     }
-    '/$countryCode/order/$orderId/confirmed': {
-      id: '/$countryCode/order/$orderId/confirmed'
+    '/$countryCode/_public/order/$orderId/confirmed': {
+      id: '/$countryCode/_public/order/$orderId/confirmed'
       path: '/order/$orderId/confirmed'
       fullPath: '/$countryCode/order/$orderId/confirmed'
-      preLoaderRoute: typeof CountryCodeOrderOrderIdConfirmedRouteImport
-      parentRoute: typeof CountryCodeRoute
+      preLoaderRoute: typeof CountryCodePublicOrderOrderIdConfirmedRouteImport
+      parentRoute: typeof CountryCodePublicRoute
     }
   }
 }
 
+interface CountryCodeProtectedRouteChildren {
+  CountryCodeProtectedEmployeesRoute: typeof CountryCodeProtectedEmployeesRoute
+  CountryCodeProtectedOrdersRoute: typeof CountryCodeProtectedOrdersRoute
+  CountryCodeProtectedQuotesRoute: typeof CountryCodeProtectedQuotesRoute
+  CountryCodeProtectedSettingsRoute: typeof CountryCodeProtectedSettingsRoute
+  CountryCodeProtectedIndexRoute: typeof CountryCodeProtectedIndexRoute
+}
+
+const CountryCodeProtectedRouteChildren: CountryCodeProtectedRouteChildren = {
+  CountryCodeProtectedEmployeesRoute: CountryCodeProtectedEmployeesRoute,
+  CountryCodeProtectedOrdersRoute: CountryCodeProtectedOrdersRoute,
+  CountryCodeProtectedQuotesRoute: CountryCodeProtectedQuotesRoute,
+  CountryCodeProtectedSettingsRoute: CountryCodeProtectedSettingsRoute,
+  CountryCodeProtectedIndexRoute: CountryCodeProtectedIndexRoute,
+}
+
+const CountryCodeProtectedRouteWithChildren =
+  CountryCodeProtectedRoute._addFileChildren(CountryCodeProtectedRouteChildren)
+
+interface CountryCodePublicRouteChildren {
+  CountryCodePublicCartRoute: typeof CountryCodePublicCartRoute
+  CountryCodePublicCheckoutRoute: typeof CountryCodePublicCheckoutRoute
+  CountryCodePublicStoreRoute: typeof CountryCodePublicStoreRoute
+  CountryCodePublicAccountAcceptInviteRoute: typeof CountryCodePublicAccountAcceptInviteRoute
+  CountryCodePublicAccountLoginRoute: typeof CountryCodePublicAccountLoginRoute
+  CountryCodePublicAccountRegisterRoute: typeof CountryCodePublicAccountRegisterRoute
+  CountryCodePublicCategoriesHandleRoute: typeof CountryCodePublicCategoriesHandleRoute
+  CountryCodePublicProductsHandleRoute: typeof CountryCodePublicProductsHandleRoute
+  CountryCodePublicOrderOrderIdConfirmedRoute: typeof CountryCodePublicOrderOrderIdConfirmedRoute
+  CountryCodePublicOrderOrderIdPaymentRoute: typeof CountryCodePublicOrderOrderIdPaymentRoute
+}
+
+const CountryCodePublicRouteChildren: CountryCodePublicRouteChildren = {
+  CountryCodePublicCartRoute: CountryCodePublicCartRoute,
+  CountryCodePublicCheckoutRoute: CountryCodePublicCheckoutRoute,
+  CountryCodePublicStoreRoute: CountryCodePublicStoreRoute,
+  CountryCodePublicAccountAcceptInviteRoute:
+    CountryCodePublicAccountAcceptInviteRoute,
+  CountryCodePublicAccountLoginRoute: CountryCodePublicAccountLoginRoute,
+  CountryCodePublicAccountRegisterRoute: CountryCodePublicAccountRegisterRoute,
+  CountryCodePublicCategoriesHandleRoute:
+    CountryCodePublicCategoriesHandleRoute,
+  CountryCodePublicProductsHandleRoute: CountryCodePublicProductsHandleRoute,
+  CountryCodePublicOrderOrderIdConfirmedRoute:
+    CountryCodePublicOrderOrderIdConfirmedRoute,
+  CountryCodePublicOrderOrderIdPaymentRoute:
+    CountryCodePublicOrderOrderIdPaymentRoute,
+}
+
+const CountryCodePublicRouteWithChildren =
+  CountryCodePublicRoute._addFileChildren(CountryCodePublicRouteChildren)
+
 interface CountryCodeRouteChildren {
-  CountryCodeCartRoute: typeof CountryCodeCartRoute
-  CountryCodeCheckoutRoute: typeof CountryCodeCheckoutRoute
-  CountryCodeEmployeesRoute: typeof CountryCodeEmployeesRoute
-  CountryCodeOrdersRoute: typeof CountryCodeOrdersRoute
-  CountryCodeQuotesRoute: typeof CountryCodeQuotesRoute
-  CountryCodeSettingsRoute: typeof CountryCodeSettingsRoute
-  CountryCodeStoreRoute: typeof CountryCodeStoreRoute
-  CountryCodeIndexRoute: typeof CountryCodeIndexRoute
-  CountryCodeAccountAcceptInviteRoute: typeof CountryCodeAccountAcceptInviteRoute
-  CountryCodeAccountLoginRoute: typeof CountryCodeAccountLoginRoute
-  CountryCodeAccountRegisterRoute: typeof CountryCodeAccountRegisterRoute
-  CountryCodeCategoriesHandleRoute: typeof CountryCodeCategoriesHandleRoute
-  CountryCodeProductsHandleRoute: typeof CountryCodeProductsHandleRoute
-  CountryCodeOrderOrderIdConfirmedRoute: typeof CountryCodeOrderOrderIdConfirmedRoute
-  CountryCodeOrderOrderIdPaymentRoute: typeof CountryCodeOrderOrderIdPaymentRoute
+  CountryCodeProtectedRoute: typeof CountryCodeProtectedRouteWithChildren
+  CountryCodePublicRoute: typeof CountryCodePublicRouteWithChildren
 }
 
 const CountryCodeRouteChildren: CountryCodeRouteChildren = {
-  CountryCodeCartRoute: CountryCodeCartRoute,
-  CountryCodeCheckoutRoute: CountryCodeCheckoutRoute,
-  CountryCodeEmployeesRoute: CountryCodeEmployeesRoute,
-  CountryCodeOrdersRoute: CountryCodeOrdersRoute,
-  CountryCodeQuotesRoute: CountryCodeQuotesRoute,
-  CountryCodeSettingsRoute: CountryCodeSettingsRoute,
-  CountryCodeStoreRoute: CountryCodeStoreRoute,
-  CountryCodeIndexRoute: CountryCodeIndexRoute,
-  CountryCodeAccountAcceptInviteRoute: CountryCodeAccountAcceptInviteRoute,
-  CountryCodeAccountLoginRoute: CountryCodeAccountLoginRoute,
-  CountryCodeAccountRegisterRoute: CountryCodeAccountRegisterRoute,
-  CountryCodeCategoriesHandleRoute: CountryCodeCategoriesHandleRoute,
-  CountryCodeProductsHandleRoute: CountryCodeProductsHandleRoute,
-  CountryCodeOrderOrderIdConfirmedRoute: CountryCodeOrderOrderIdConfirmedRoute,
-  CountryCodeOrderOrderIdPaymentRoute: CountryCodeOrderOrderIdPaymentRoute,
+  CountryCodeProtectedRoute: CountryCodeProtectedRouteWithChildren,
+  CountryCodePublicRoute: CountryCodePublicRouteWithChildren,
 }
 
 const CountryCodeRouteWithChildren = CountryCodeRoute._addFileChildren(

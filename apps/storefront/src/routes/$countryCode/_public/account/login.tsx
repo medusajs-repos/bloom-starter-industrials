@@ -1,12 +1,12 @@
 import { createFileRoute, redirect } from "@tanstack/react-router"
 import LoginPage from "@/pages/login"
-import { getServerAuthState } from "@/lib/data/auth"
+import { AuthState } from "@/lib/data/auth"
 
-export const Route = createFileRoute("/$countryCode/account/login")({
-  beforeLoad: async ({ params }) => {
-    const { isAuthenticated } = await getServerAuthState()
-    if (isAuthenticated) {
-      throw redirect({ to: "/$countryCode", params: { countryCode: params.countryCode } })
+export const Route = createFileRoute("/$countryCode/_public/account/login")({
+  beforeLoad: ({ context, params }) => {
+    const { authState } = context as unknown as { authState: AuthState }
+    if (authState.isAuthenticated) {
+      throw redirect({ to: "/$countryCode/", params: { countryCode: params.countryCode } })
     }
   },
   head: () => ({

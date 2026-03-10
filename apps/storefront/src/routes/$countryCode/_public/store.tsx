@@ -9,7 +9,7 @@ const storeSearchSchema = z.object({
   category: z.string().optional(),
 })
 
-export const Route = createFileRoute("/$countryCode/store")({
+export const Route = createFileRoute("/$countryCode/_public/store")({
   validateSearch: storeSearchSchema,
   loader: async ({ params, context }) => {
     const { countryCode } = params
@@ -50,37 +50,14 @@ export const Route = createFileRoute("/$countryCode/store")({
 
     return {
       meta: [
-        {
-          title,
-        },
-        {
-          name: "description",
-          content: description,
-        },
-        {
-          property: "og:title",
-          content: title,
-        },
-        {
-          property: "og:description",
-          content: description,
-        },
-        {
-          property: "og:type",
-          content: "website",
-        },
-        {
-          property: "twitter:card",
-          content: "summary_large_image",
-        },
-        {
-          property: "twitter:title",
-          content: title,
-        },
-        {
-          property: "twitter:description",
-          content: description,
-        },
+        { title },
+        { name: "description", content: description },
+        { property: "og:title", content: title },
+        { property: "og:description", content: description },
+        { property: "og:type", content: "website" },
+        { property: "twitter:card", content: "summary_large_image" },
+        { property: "twitter:title", content: title },
+        { property: "twitter:description", content: description },
       ]
     }
   },

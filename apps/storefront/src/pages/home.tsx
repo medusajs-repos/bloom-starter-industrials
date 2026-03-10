@@ -1,10 +1,7 @@
 import { Link, useParams, useLoaderData } from "@tanstack/react-router"
 import type { HttpTypes } from "@medusajs/types"
 import { useLatestProducts } from "@/lib/hooks/use-products"
-import { useCategories } from "@/lib/hooks/use-categories"
 import { ProductCard } from "@/components/product-card"
-import { PublicHomePage } from "./public-home"
-import { useAuth } from "@/lib/hooks/use-auth"
 import { DashboardPageLayout } from "@/components/dashboard-page-layout"
 import { useQuery } from "@tanstack/react-query"
 import { getDashboardStats, RecentActivity } from "@/lib/data/dashboard"
@@ -50,8 +47,6 @@ export default function Home() {
   const countryCode = params.countryCode || "us"
   const loaderData = useLoaderData({ strict: false }) as { region?: HttpTypes.StoreRegion } | undefined
   const region = loaderData?.region
-  const { isAuthenticated, isLoading: authLoading } = useAuth()
-
   const { data: latestProductsData } = useLatestProducts({
     limit: 4,
     region_id: region?.id,
@@ -60,21 +55,9 @@ export default function Home() {
   const { data: dashboardData, isLoading: statsLoading } = useQuery({
     queryKey: ["dashboard-stats"],
     queryFn: getDashboardStats,
-    enabled: isAuthenticated,
-  })
-
-  const { data: categories = [] } = useCategories({
-    queryParams: {
-      include_ancestors_tree: false,
-    },
   })
 
   const products = latestProductsData?.products || []
-
-  // Show loading or public home while checking auth
-  if (authLoading || !isAuthenticated) {
-    return <PublicHomePage products={products} categories={categories} />
-  }
 
   const stats = dashboardData?.stats
   const recentActivity = dashboardData?.recent_activity || []

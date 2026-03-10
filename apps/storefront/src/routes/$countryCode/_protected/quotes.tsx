@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router"
 import QuotesPage from "@/pages/quotes"
 
-export const Route = createFileRoute("/$countryCode/quotes")({
+export const Route = createFileRoute("/$countryCode/_protected/quotes")({
   component: QuotesPage,
   head: () => {
     return {

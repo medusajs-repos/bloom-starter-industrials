@@ -6,7 +6,7 @@ const settingsSearchSchema = z.object({
   tab: z.string().optional(),
 })
 
-export const Route = createFileRoute("/$countryCode/settings")({
+export const Route = createFileRoute("/$countryCode/_protected/settings")({
   validateSearch: settingsSearchSchema,
   component: SettingsPage,
   head: () => {
