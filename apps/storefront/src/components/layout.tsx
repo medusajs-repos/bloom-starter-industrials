@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { Outlet } from "@tanstack/react-router"
 import { Sidebar } from "./sidebar"
 import { PublicLayout } from "./public-layout"
@@ -9,14 +9,18 @@ import { OnboardingTour } from "./onboarding-tour"
 export default function Layout() {
   const { isAuthenticated, employee } = useAuth()
   const [isCollapsed, setIsCollapsed] = useState(false)
-  const [mounted, setMounted] = useState(false)
+  // Track whether we have resolved the sidebar preference from localStorage.
+  // We use a ref so it never triggers a re-render and never causes a hydration mismatch.
+  const sidebarResolved = useRef(false)
 
   useEffect(() => {
-    const savedState = localStorage.getItem("sidebar_collapsed")
-    if (savedState !== null) {
-      setIsCollapsed(savedState === "true")
+    if (!sidebarResolved.current) {
+      const savedState = localStorage.getItem("sidebar_collapsed")
+      if (savedState !== null) {
+        setIsCollapsed(savedState === "true")
+      }
+      sidebarResolved.current = true
     }
-    setMounted(true)
   }, [])
 
   const toggleCollapsed = () => {
@@ -24,8 +28,6 @@ export default function Layout() {
     setIsCollapsed(newState)
     localStorage.setItem("sidebar_collapsed", String(newState))
   }
-
-  const collapsed = mounted ? isCollapsed : false
 
   if (!isAuthenticated) {
     return (
@@ -44,10 +46,10 @@ export default function Layout() {
   // Show authenticated dashboard layout
   return (
     <div className="min-h-screen bg-gray-100 flex">
-      <Sidebar countryCode="us" collapsed={collapsed} onToggle={toggleCollapsed} />
+      <Sidebar countryCode="us" collapsed={isCollapsed} onToggle={toggleCollapsed} />
       <main
         className={`flex-1 transition-all duration-300 ${
-          collapsed ? "ml-[72px]" : "ml-[280px]"
+          isCollapsed ? "ml-[72px]" : "ml-[280px]"
         }`}
       >
         <Outlet />
