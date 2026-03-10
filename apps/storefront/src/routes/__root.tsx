@@ -18,7 +18,7 @@ const NotFound = lazy(() => import("@/components/not-found"))
 export const Route = createRootRouteWithContext<{
   queryClient: QueryClient;
 }>()({
-  loader: async ({ context }) => {
+  beforeLoad: async ({ context }) => {
     const { queryClient } = context
 
     const [authState] = await Promise.all([
@@ -50,8 +50,7 @@ export const Route = createRootRouteWithContext<{
 })
 
 function RootComponent() {
-  const { queryClient } = Route.useRouteContext()
-  const { authState } = Route.useLoaderData() as { authState: AuthState }
+  const { queryClient, authState } = Route.useRouteContext() as { queryClient: QueryClient; authState: AuthState }
 
   return (
     <html lang="en">

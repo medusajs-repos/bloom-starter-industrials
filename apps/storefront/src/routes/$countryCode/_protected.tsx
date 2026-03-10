@@ -1,5 +1,6 @@
-import { createFileRoute, redirect, Outlet } from "@tanstack/react-router"
+import { createFileRoute, redirect } from "@tanstack/react-router"
 import { AuthState } from "@/lib/data/auth"
+import Layout from "@/components/layout"
 
 export const Route = createFileRoute("/$countryCode/_protected")({
   beforeLoad: ({ context, params }): { authState: AuthState } => {
@@ -14,5 +15,5 @@ export const Route = createFileRoute("/$countryCode/_protected")({
 
     return { authState }
   },
-  component: () => <Outlet />,
+  component: Layout,
 })
