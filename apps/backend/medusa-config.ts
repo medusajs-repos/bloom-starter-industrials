@@ -48,8 +48,6 @@ module.exports = defineConfig({
     },
 
     sessionOptions: {
-      resave: true,
-      saveUninitialized: true,
       ttl: 10 * 60 * 60 * 1000,
     },
   },
