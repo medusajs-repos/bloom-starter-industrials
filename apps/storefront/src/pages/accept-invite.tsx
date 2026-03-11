@@ -92,7 +92,7 @@ export default function AcceptInvitePage() {
       await login(email!, formData.password)
 
       // Navigate to the dashboard
-      navigate({ to: "/$countryCode", params: { countryCode } })
+      navigate({ to: "/$countryCode/dashboard", params: { countryCode } })
     } catch (error: any) {
       console.error("Accept invite error:", error)
       let errorMessage: string
@@ -139,7 +139,7 @@ export default function AcceptInvitePage() {
                 Go to Sign In
               </Link>
               <Link
-                to="/$countryCode"
+                to="/$countryCode/"
                 params={{ countryCode }}
                 className="block w-full py-3 px-4 bg-surface border border-border text-text-primary rounded-lg font-medium text-center hover:bg-gray-50 transition-colors"
               >

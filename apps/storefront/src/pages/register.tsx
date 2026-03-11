@@ -155,7 +155,7 @@ export default function RegisterPage() {
       await login(adminData.email, adminData.password)
 
       // Navigate without full page reload to preserve auth state
-      navigate({ to: "/$countryCode", params: { countryCode } })
+      navigate({ to: "/$countryCode/dashboard", params: { countryCode } })
     } catch (err: any) {
       console.error("Registration error:", err)
       if (err.message?.includes("already exists") || err.message?.includes("duplicate")) {

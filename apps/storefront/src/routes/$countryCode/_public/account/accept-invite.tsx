@@ -11,7 +11,7 @@ export const Route = createFileRoute("/$countryCode/_public/account/accept-invit
   beforeLoad: ({ context, params }) => {
     const { authState } = context as unknown as { authState: AuthState }
     if (authState.isAuthenticated) {
-      throw redirect({ to: "/$countryCode/", params: { countryCode: params.countryCode } })
+      throw redirect({ to: "/$countryCode/dashboard", params: { countryCode: params.countryCode } })
     }
   },
   head: () => ({

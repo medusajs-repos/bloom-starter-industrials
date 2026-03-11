@@ -25,7 +25,7 @@ export default function LoginPage() {
       console.log("[LoginPage] login successful, navigating to home")
 
       // Navigate without full page reload to preserve auth state
-      navigate({ to: "/$countryCode", params: { countryCode } })
+      navigate({ to: "/$countryCode/dashboard", params: { countryCode } })
     } catch (err: any) {
       console.error("Login error:", err)
       setError("Invalid email or password. Please try again.")

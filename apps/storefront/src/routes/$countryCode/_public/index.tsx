@@ -7,7 +7,7 @@ export const Route = createFileRoute("/$countryCode/_public/")({
     const { authState } = context as unknown as { authState: AuthState }
     if (authState.isAuthenticated) {
       throw redirect({
-        to: "/$countryCode/",
+        to: "/$countryCode/dashboard",
         params: { countryCode: params.countryCode },
       })
     }

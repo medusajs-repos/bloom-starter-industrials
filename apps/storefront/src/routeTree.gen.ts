@@ -18,7 +18,7 @@ import { Route as SplatRouteImport } from './routes/$'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as CountryCodePublicRouteImport } from './routes/$countryCode/_public'
 import { Route as CountryCodeProtectedRouteImport } from './routes/$countryCode/_protected'
-import { Route as CountryCodeProtectedIndexRouteImport } from './routes/$countryCode/_protected/index'
+import { Route as CountryCodePublicIndexRouteImport } from './routes/$countryCode/_public/index'
 import { Route as CountryCodePublicStoreRouteImport } from './routes/$countryCode/_public/store'
 import { Route as CountryCodePublicCheckoutRouteImport } from './routes/$countryCode/_public/checkout'
 import { Route as CountryCodePublicCartRouteImport } from './routes/$countryCode/_public/cart'
@@ -26,6 +26,7 @@ import { Route as CountryCodeProtectedSettingsRouteImport } from './routes/$coun
 import { Route as CountryCodeProtectedQuotesRouteImport } from './routes/$countryCode/_protected/quotes'
 import { Route as CountryCodeProtectedOrdersRouteImport } from './routes/$countryCode/_protected/orders'
 import { Route as CountryCodeProtectedEmployeesRouteImport } from './routes/$countryCode/_protected/employees'
+import { Route as CountryCodeProtectedDashboardRouteImport } from './routes/$countryCode/_protected/dashboard'
 import { Route as CountryCodePublicProductsHandleRouteImport } from './routes/$countryCode/_public/products/$handle'
 import { Route as CountryCodePublicCategoriesHandleRouteImport } from './routes/$countryCode/_public/categories/$handle'
 import { Route as CountryCodePublicAccountRegisterRouteImport } from './routes/$countryCode/_public/account/register'
@@ -77,12 +78,11 @@ const CountryCodeProtectedRoute = CountryCodeProtectedRouteImport.update({
   id: '/_protected',
   getParentRoute: () => CountryCodeRoute,
 } as any)
-const CountryCodeProtectedIndexRoute =
-  CountryCodeProtectedIndexRouteImport.update({
-    id: '/',
-    path: '/',
-    getParentRoute: () => CountryCodeProtectedRoute,
-  } as any)
+const CountryCodePublicIndexRoute = CountryCodePublicIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => CountryCodePublicRoute,
+} as any)
 const CountryCodePublicStoreRoute = CountryCodePublicStoreRouteImport.update({
   id: '/store',
   path: '/store',
@@ -121,6 +121,12 @@ const CountryCodeProtectedEmployeesRoute =
   CountryCodeProtectedEmployeesRouteImport.update({
     id: '/employees',
     path: '/employees',
+    getParentRoute: () => CountryCodeProtectedRoute,
+  } as any)
+const CountryCodeProtectedDashboardRoute =
+  CountryCodeProtectedDashboardRouteImport.update({
+    id: '/dashboard',
+    path: '/dashboard',
     getParentRoute: () => CountryCodeProtectedRoute,
   } as any)
 const CountryCodePublicProductsHandleRoute =
@@ -174,6 +180,7 @@ export interface FileRoutesByFullPath {
   '/checkout': typeof CheckoutRoute
   '/health': typeof HealthRoute
   '/store': typeof StoreRoute
+  '/$countryCode/dashboard': typeof CountryCodeProtectedDashboardRoute
   '/$countryCode/employees': typeof CountryCodeProtectedEmployeesRoute
   '/$countryCode/orders': typeof CountryCodeProtectedOrdersRoute
   '/$countryCode/quotes': typeof CountryCodeProtectedQuotesRoute
@@ -181,7 +188,7 @@ export interface FileRoutesByFullPath {
   '/$countryCode/cart': typeof CountryCodePublicCartRoute
   '/$countryCode/checkout': typeof CountryCodePublicCheckoutRoute
   '/$countryCode/store': typeof CountryCodePublicStoreRoute
-  '/$countryCode/': typeof CountryCodeProtectedIndexRoute
+  '/$countryCode/': typeof CountryCodePublicIndexRoute
   '/$countryCode/account/accept-invite': typeof CountryCodePublicAccountAcceptInviteRoute
   '/$countryCode/account/login': typeof CountryCodePublicAccountLoginRoute
   '/$countryCode/account/register': typeof CountryCodePublicAccountRegisterRoute
@@ -193,11 +200,12 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/$': typeof SplatRoute
-  '/$countryCode': typeof CountryCodeProtectedIndexRoute
+  '/$countryCode': typeof CountryCodePublicIndexRoute
   '/cart': typeof CartRoute
   '/checkout': typeof CheckoutRoute
   '/health': typeof HealthRoute
   '/store': typeof StoreRoute
+  '/$countryCode/dashboard': typeof CountryCodeProtectedDashboardRoute
   '/$countryCode/employees': typeof CountryCodeProtectedEmployeesRoute
   '/$countryCode/orders': typeof CountryCodeProtectedOrdersRoute
   '/$countryCode/quotes': typeof CountryCodeProtectedQuotesRoute
@@ -224,6 +232,7 @@ export interface FileRoutesById {
   '/store': typeof StoreRoute
   '/$countryCode/_protected': typeof CountryCodeProtectedRouteWithChildren
   '/$countryCode/_public': typeof CountryCodePublicRouteWithChildren
+  '/$countryCode/_protected/dashboard': typeof CountryCodeProtectedDashboardRoute
   '/$countryCode/_protected/employees': typeof CountryCodeProtectedEmployeesRoute
   '/$countryCode/_protected/orders': typeof CountryCodeProtectedOrdersRoute
   '/$countryCode/_protected/quotes': typeof CountryCodeProtectedQuotesRoute
@@ -231,7 +240,7 @@ export interface FileRoutesById {
   '/$countryCode/_public/cart': typeof CountryCodePublicCartRoute
   '/$countryCode/_public/checkout': typeof CountryCodePublicCheckoutRoute
   '/$countryCode/_public/store': typeof CountryCodePublicStoreRoute
-  '/$countryCode/_protected/': typeof CountryCodeProtectedIndexRoute
+  '/$countryCode/_public/': typeof CountryCodePublicIndexRoute
   '/$countryCode/_public/account/accept-invite': typeof CountryCodePublicAccountAcceptInviteRoute
   '/$countryCode/_public/account/login': typeof CountryCodePublicAccountLoginRoute
   '/$countryCode/_public/account/register': typeof CountryCodePublicAccountRegisterRoute
@@ -250,6 +259,7 @@ export interface FileRouteTypes {
     | '/checkout'
     | '/health'
     | '/store'
+    | '/$countryCode/dashboard'
     | '/$countryCode/employees'
     | '/$countryCode/orders'
     | '/$countryCode/quotes'
@@ -274,6 +284,7 @@ export interface FileRouteTypes {
     | '/checkout'
     | '/health'
     | '/store'
+    | '/$countryCode/dashboard'
     | '/$countryCode/employees'
     | '/$countryCode/orders'
     | '/$countryCode/quotes'
@@ -299,6 +310,7 @@ export interface FileRouteTypes {
     | '/store'
     | '/$countryCode/_protected'
     | '/$countryCode/_public'
+    | '/$countryCode/_protected/dashboard'
     | '/$countryCode/_protected/employees'
     | '/$countryCode/_protected/orders'
     | '/$countryCode/_protected/quotes'
@@ -306,7 +318,7 @@ export interface FileRouteTypes {
     | '/$countryCode/_public/cart'
     | '/$countryCode/_public/checkout'
     | '/$countryCode/_public/store'
-    | '/$countryCode/_protected/'
+    | '/$countryCode/_public/'
     | '/$countryCode/_public/account/accept-invite'
     | '/$countryCode/_public/account/login'
     | '/$countryCode/_public/account/register'
@@ -391,12 +403,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CountryCodeProtectedRouteImport
       parentRoute: typeof CountryCodeRoute
     }
-    '/$countryCode/_protected/': {
-      id: '/$countryCode/_protected/'
+    '/$countryCode/_public/': {
+      id: '/$countryCode/_public/'
       path: '/'
       fullPath: '/$countryCode/'
-      preLoaderRoute: typeof CountryCodeProtectedIndexRouteImport
-      parentRoute: typeof CountryCodeProtectedRoute
+      preLoaderRoute: typeof CountryCodePublicIndexRouteImport
+      parentRoute: typeof CountryCodePublicRoute
     }
     '/$countryCode/_public/store': {
       id: '/$countryCode/_public/store'
@@ -445,6 +457,13 @@ declare module '@tanstack/react-router' {
       path: '/employees'
       fullPath: '/$countryCode/employees'
       preLoaderRoute: typeof CountryCodeProtectedEmployeesRouteImport
+      parentRoute: typeof CountryCodeProtectedRoute
+    }
+    '/$countryCode/_protected/dashboard': {
+      id: '/$countryCode/_protected/dashboard'
+      path: '/dashboard'
+      fullPath: '/$countryCode/dashboard'
+      preLoaderRoute: typeof CountryCodeProtectedDashboardRouteImport
       parentRoute: typeof CountryCodeProtectedRoute
     }
     '/$countryCode/_public/products/$handle': {
@@ -500,19 +519,19 @@ declare module '@tanstack/react-router' {
 }
 
 interface CountryCodeProtectedRouteChildren {
+  CountryCodeProtectedDashboardRoute: typeof CountryCodeProtectedDashboardRoute
   CountryCodeProtectedEmployeesRoute: typeof CountryCodeProtectedEmployeesRoute
   CountryCodeProtectedOrdersRoute: typeof CountryCodeProtectedOrdersRoute
   CountryCodeProtectedQuotesRoute: typeof CountryCodeProtectedQuotesRoute
   CountryCodeProtectedSettingsRoute: typeof CountryCodeProtectedSettingsRoute
-  CountryCodeProtectedIndexRoute: typeof CountryCodeProtectedIndexRoute
 }
 
 const CountryCodeProtectedRouteChildren: CountryCodeProtectedRouteChildren = {
+  CountryCodeProtectedDashboardRoute: CountryCodeProtectedDashboardRoute,
   CountryCodeProtectedEmployeesRoute: CountryCodeProtectedEmployeesRoute,
   CountryCodeProtectedOrdersRoute: CountryCodeProtectedOrdersRoute,
   CountryCodeProtectedQuotesRoute: CountryCodeProtectedQuotesRoute,
   CountryCodeProtectedSettingsRoute: CountryCodeProtectedSettingsRoute,
-  CountryCodeProtectedIndexRoute: CountryCodeProtectedIndexRoute,
 }
 
 const CountryCodeProtectedRouteWithChildren =
@@ -522,6 +541,7 @@ interface CountryCodePublicRouteChildren {
   CountryCodePublicCartRoute: typeof CountryCodePublicCartRoute
   CountryCodePublicCheckoutRoute: typeof CountryCodePublicCheckoutRoute
   CountryCodePublicStoreRoute: typeof CountryCodePublicStoreRoute
+  CountryCodePublicIndexRoute: typeof CountryCodePublicIndexRoute
   CountryCodePublicAccountAcceptInviteRoute: typeof CountryCodePublicAccountAcceptInviteRoute
   CountryCodePublicAccountLoginRoute: typeof CountryCodePublicAccountLoginRoute
   CountryCodePublicAccountRegisterRoute: typeof CountryCodePublicAccountRegisterRoute
@@ -535,6 +555,7 @@ const CountryCodePublicRouteChildren: CountryCodePublicRouteChildren = {
   CountryCodePublicCartRoute: CountryCodePublicCartRoute,
   CountryCodePublicCheckoutRoute: CountryCodePublicCheckoutRoute,
   CountryCodePublicStoreRoute: CountryCodePublicStoreRoute,
+  CountryCodePublicIndexRoute: CountryCodePublicIndexRoute,
   CountryCodePublicAccountAcceptInviteRoute:
     CountryCodePublicAccountAcceptInviteRoute,
   CountryCodePublicAccountLoginRoute: CountryCodePublicAccountLoginRoute,

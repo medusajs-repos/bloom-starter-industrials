@@ -4,7 +4,7 @@ import { getRegion } from "@/lib/data/regions"
 import { listProducts } from "@/lib/data/products"
 import { queryKeys } from "@/lib/utils/query-keys"
 
-export const Route = createFileRoute("/$countryCode/_protected/")({
+export const Route = createFileRoute("/$countryCode/_protected/dashboard")({
   loader: async ({ params, context }) => {
     const { countryCode } = params
     const { queryClient } = context
