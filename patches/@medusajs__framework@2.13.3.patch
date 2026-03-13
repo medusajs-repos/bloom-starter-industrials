@@ -1,10 +1,8 @@
 diff --git a/dist/http/express-loader.js b/dist/http/express-loader.js
-index 1234567..abcdefg 100644
+index 149a3f33962e1fe79a1457e54ad4d1333a7156ef..1f6c900384926ff4e24eed65790e149a26ceaad4 100644
 --- a/dist/http/express-loader.js
 +++ b/dist/http/express-loader.js
 @@ -65,7 +65,7 @@ async function expressLoader({ app, container, }) {
-         sessionOpts.store = new RedisStore({
-             client: redisClient,
              prefix: `${configModule?.projectConfig?.redisPrefix ?? ""}sess:`,
          });
      }

@@ -23,6 +23,9 @@
     "overrides": {
       "react": "19.1.1",
       "react-dom": "19.1.1"
+    },
+    "patchedDependencies": {
+      "@medusajs/framework@2.13.3": "patches/@medusajs__framework@2.13.3.patch"
     }
   },
   "dependencies": {
