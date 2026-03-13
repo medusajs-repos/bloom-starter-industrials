@@ -8,7 +8,7 @@ import { storeQuotesMiddlewares } from "./store/quotes/middlewares"
 import { dashboardMiddlewares } from "./store/dashboard/middlewares"
 import { storeUploadsMiddlewares } from "./store/uploads/middlewares"
 
-// Admin middlewares
+// Admin middleware
 import { adminCompaniesMiddlewares } from "./admin/companies/middlewares"
 import { adminQuotesMiddlewares } from "./admin/quotes/middlewares"
 
