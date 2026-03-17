@@ -41,8 +41,8 @@ export function Footer() {
             <ul className="space-y-3">
               <li>
                 <Link
-                  to="/$countryCode/categories/forklifts"
-                  params={{ countryCode }}
+                  to="/$countryCode/categories/$handle"
+                  params={{ countryCode, handle: "forklifts" }}
                   className="text-sm text-gray-500 hover:text-gray-900 transition-colors"
                 >
                   Forklifts
@@ -50,8 +50,8 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  to="/$countryCode/categories/material-handlers"
-                  params={{ countryCode }}
+                  to="/$countryCode/categories/$handle"
+                  params={{ countryCode, handle: "material-handlers" }}
                   className="text-sm text-gray-500 hover:text-gray-900 transition-colors"
                 >
                   Material Handlers
@@ -59,8 +59,8 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  to="/$countryCode/categories/parts-accessories"
-                  params={{ countryCode }}
+                  to="/$countryCode/categories/$handle"
+                  params={{ countryCode, handle: "parts-accessories" }}
                   className="text-sm text-gray-500 hover:text-gray-900 transition-colors"
                 >
                   Parts

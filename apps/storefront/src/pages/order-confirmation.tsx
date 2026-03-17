@@ -27,7 +27,7 @@ const OrderConfirmation = () => {
             The order could not be found.
           </p>
           <Link
-            to={`/${countryCode}/store`}
+            to={"/$countryCode/store" as string} params={{ countryCode }}
             className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
           >
             Continue Shopping
@@ -204,13 +204,13 @@ const OrderConfirmation = () => {
         {/* Actions Footer */}
         <div className="p-6 border-t border-gray-200 bg-gray-50 flex flex-col sm:flex-row gap-3 justify-center">
           <Link
-            to={`/${countryCode}/orders`}
+            to={"/$countryCode/orders" as string} params={{ countryCode }}
             className="inline-flex items-center justify-center px-6 py-2.5 border border-slate-300 rounded-lg text-slate-700 hover:bg-slate-100 transition-colors font-medium"
           >
             View All Orders
           </Link>
           <Link
-            to={`/${countryCode}/store`}
+            to={"/$countryCode/store" as string} params={{ countryCode }}
             className="inline-flex items-center justify-center px-6 py-2.5 bg-accent text-white rounded-lg hover:bg-accent/90 transition-colors font-medium"
           >
             Continue Shopping

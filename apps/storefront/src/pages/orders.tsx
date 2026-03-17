@@ -8,6 +8,7 @@ import { Thumbnail } from "@/components/ui/thumbnail"
 import { Price } from "@/components/ui/price"
 import Address from "@/components/address"
 import { formatOrderId } from "@/lib/utils/order"
+import { CheckoutStepKey } from "@/lib/types/global"
 import {
   ShoppingBag,
   Clock,
@@ -202,7 +203,7 @@ function OrderDetailModal({
                   </div>
                 </div>
                 <Link
-                  to={`/${countryCode}/order/${order.id}/payment`}
+                  to={"/$countryCode/order/$orderId/payment" as string} params={{ countryCode, orderId: order.id }}
                   className="px-4 py-2 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition-colors font-medium text-sm"
                 >
                   Pay Now
@@ -375,7 +376,7 @@ function OrderDetailModal({
           </button>
           {paymentStatusConfig.showPayButton && (
             <Link
-              to={`/${countryCode}/order/${order.id}/payment`}
+              to={"/$countryCode/order/$orderId/payment" as string} params={{ countryCode, orderId: order.id }}
               className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
             >
               Pay Now
@@ -440,7 +441,7 @@ export default function OrdersPage() {
       navigate({
         to: "/$countryCode/checkout",
         params: { countryCode: countryCode || "us" },
-        search: { step: "review" },
+        search: { step: CheckoutStepKey.REVIEW },
       })
     } catch (error) {
       console.error("Failed to reorder:", error)
@@ -466,7 +467,7 @@ export default function OrdersPage() {
             You need to be logged in to access your order history.
           </p>
           <Link
-            to={`/${countryCode}/login`}
+            to={"/$countryCode/account/login" as string} params={{ countryCode }}
             className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
           >
             Sign In
@@ -498,7 +499,7 @@ export default function OrdersPage() {
             When you place orders, they will appear here.
           </p>
           <Link
-            to={`/${countryCode}/store`}
+            to={"/$countryCode/store" as string} params={{ countryCode }}
             className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
           >
             Browse Products

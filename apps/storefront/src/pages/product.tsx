@@ -24,7 +24,7 @@ export function ProductPage() {
           <h1 className="text-2xl font-bold text-text-primary mb-2">Product not found</h1>
           <p className="text-text-secondary mb-6">The product you're looking for doesn't exist.</p>
           <Link 
-            to={`/${countryCode}/store`}
+            to={"/$countryCode/store" as string} params={{ countryCode }}
             className="px-5 py-2.5 bg-accent text-white font-medium rounded-lg hover:bg-accent-hover transition-colors"
           >
             Back to Catalog
@@ -70,11 +70,11 @@ export function ProductPage() {
           <div className="flex items-center justify-between">
             {/* Breadcrumb */}
             <div className="flex items-center gap-2 text-sm">
-              <Link to={`/${countryCode}`} className="text-text-secondary hover:text-text-primary transition-colors">
+              <Link to={"/$countryCode" as string} params={{ countryCode }} className="text-text-secondary hover:text-text-primary transition-colors">
                 Dashboard
               </Link>
               <ChevronRight className="w-4 h-4 text-text-muted" />
-              <Link to={`/${countryCode}/store`} className="text-text-secondary hover:text-text-primary transition-colors">
+              <Link to={"/$countryCode/store" as string} params={{ countryCode }} className="text-text-secondary hover:text-text-primary transition-colors">
                 Product Catalog
               </Link>
               <ChevronRight className="w-4 h-4 text-text-muted" />

@@ -3,6 +3,7 @@ import { getRegion } from "@/lib/data/regions"
 import Store from "@/pages/store"
 import { listProducts } from "@/lib/data/products"
 import { HttpTypes } from "@medusajs/types"
+import { sanitize } from "@/lib/utils/sanitize"
 import { z } from "zod"
 
 const storeSearchSchema = z.object({
@@ -36,11 +37,11 @@ export const Route = createFileRoute("/$countryCode/store")({
       }),
     })
 
-    return {
+    return sanitize({
       countryCode,
       region,
       products: products as HttpTypes.StoreProduct[],
-    }
+    })
   },
   head: ({ loaderData }) => {
     const { region, countryCode } = loaderData || {}

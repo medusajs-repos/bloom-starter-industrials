@@ -21,7 +21,7 @@ export function CategoryPage() {
           <h1 className="text-2xl font-bold text-text-primary mb-2">Category not found</h1>
           <p className="text-text-secondary mb-6">The category you're looking for doesn't exist.</p>
           <Link 
-            to={`/${countryCode}/store`}
+            to={"/$countryCode/store" as string} params={{ countryCode }}
             className="px-5 py-2.5 bg-accent text-white font-medium rounded-lg hover:bg-accent-hover transition-colors"
           >
             Back to Catalog
@@ -39,11 +39,11 @@ export function CategoryPage() {
           <div className="flex items-center justify-between">
             {/* Breadcrumb */}
             <div className="flex items-center gap-2 text-sm">
-              <Link to={`/${countryCode}`} className="text-text-secondary hover:text-text-primary transition-colors">
+              <Link to={"/$countryCode" as string} params={{ countryCode }} className="text-text-secondary hover:text-text-primary transition-colors">
                 Dashboard
               </Link>
               <ChevronRight className="w-4 h-4 text-text-muted" />
-              <Link to={`/${countryCode}/store`} className="text-text-secondary hover:text-text-primary transition-colors">
+              <Link to={"/$countryCode/store" as string} params={{ countryCode }} className="text-text-secondary hover:text-text-primary transition-colors">
                 Product Catalog
               </Link>
               <ChevronRight className="w-4 h-4 text-text-muted" />
@@ -85,7 +85,7 @@ export function CategoryPage() {
           <div className="bg-surface rounded-xl border border-border p-12 text-center">
             <p className="text-text-secondary mb-4">No products in this category</p>
             <Link 
-              to={`/${countryCode}/store`}
+              to={"/$countryCode/store" as string} params={{ countryCode }}
               className="inline-flex items-center gap-2 px-5 py-2.5 bg-accent text-white font-medium rounded-lg hover:bg-accent-hover transition-colors"
             >
               Browse All Products

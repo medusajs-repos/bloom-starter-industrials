@@ -1,6 +1,7 @@
 import { listProducts, retrieveProduct } from "@/lib/data/products";
 import { getRegion } from "@/lib/data/regions";
 import { queryKeys } from "@/lib/utils/query-keys";
+import { sanitize } from "@/lib/utils/sanitize";
 import ProductDetails from "@/pages/product";
 import { HttpTypes } from "@medusajs/types";
 import { createFileRoute, notFound } from "@tanstack/react-router";
@@ -64,11 +65,11 @@ export const Route = createFileRoute("/$countryCode/products/$handle")({
       },
     });
 
-    return {
+    return sanitize({
       countryCode,
       region,
       product: product as HttpTypes.StoreProduct,
-    };
+    });
   },
   head: ({ loaderData }) => {
     const { product, region } = loaderData || {};
@@ -89,7 +90,7 @@ export const Route = createFileRoute("/$countryCode/products/$handle")({
       "@type": "Product",
       name: product.title,
       description: product.description,
-      image: product.images?.map((img) => img.url).filter(Boolean) || [],
+      image: product.images?.map((img: { url?: string }) => img.url).filter(Boolean) || [],
       brand: {
         "@type": "Brand",
         name: "ProLift Equipment",
