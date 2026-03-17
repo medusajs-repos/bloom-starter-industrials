@@ -483,7 +483,7 @@ export default function OrderPaymentPage() {
             You need to be logged in to complete the checkout.
           </p>
           <Link
-            to={`/${countryCode}/login`}
+            to={"/$countryCode/account/login" as string} params={{ countryCode }}
             className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
           >
             Sign In
@@ -521,7 +521,7 @@ export default function OrderPaymentPage() {
             The order you're looking for doesn't exist or you don't have access to it.
           </p>
           <Link
-            to={`/${countryCode}/orders`}
+            to={"/$countryCode/orders" as string} params={{ countryCode }}
             className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
           >
             Back to Orders
@@ -545,7 +545,7 @@ export default function OrderPaymentPage() {
             This order has already been paid. Thank you for your purchase!
           </p>
           <Link
-            to={`/${countryCode}/orders`}
+            to={"/$countryCode/orders" as string} params={{ countryCode }}
             className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
           >
             Back to Orders
@@ -559,7 +559,7 @@ export default function OrderPaymentPage() {
     <DashboardPageLayout>
       <div className="mb-6">
         <Link
-          to={`/${countryCode}/orders`}
+          to={"/$countryCode/orders" as string} params={{ countryCode }}
           className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-4"
         >
           <ArrowLeft className="w-4 h-4" />

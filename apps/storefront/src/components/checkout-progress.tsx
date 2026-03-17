@@ -21,7 +21,7 @@ const CheckoutProgress = ({
         <div key={step.key} className="flex items-center gap-4">
           <Button
             onClick={() => handleStepChange(step.key)}
-            variant={"transparent"}
+            variant={"ghost"}
             className={clsx(
               "p-0 hover:bg-transparent",
               index !== currentStepIndex &&

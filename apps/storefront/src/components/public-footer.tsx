@@ -6,20 +6,20 @@ export function PublicFooter() {
   const countryCode = params.countryCode || "us"
 
   const equipmentLinks = [
-    { label: "Electric Forklifts", href: `/${countryCode}/store` },
-    { label: "IC Forklifts", href: `/${countryCode}/store` },
-    { label: "Reach Trucks", href: `/${countryCode}/store` },
-    { label: "Order Pickers", href: `/${countryCode}/store` },
+    { label: "Electric Forklifts", href: `/${countryCode}/store` as string },
+    { label: "IC Forklifts", href: `/${countryCode}/store` as string },
+    { label: "Reach Trucks", href: `/${countryCode}/store` as string },
+    { label: "Order Pickers", href: `/${countryCode}/store` as string },
   ]
 
   const companyLinks = [
-    { label: "About Us", href: `/${countryCode}/about` },
-    { label: "Careers", href: `/${countryCode}/careers` },
+    { label: "About Us", href: `/${countryCode}/about` as string },
+    { label: "Careers", href: `/${countryCode}/careers` as string },
   ]
 
   const supportLinks = [
-    { label: "Service & Parts", href: `/${countryCode}/service` },
-    { label: "Safety Resources", href: `/${countryCode}/safety` },
+    { label: "Service & Parts", href: `/${countryCode}/service` as string },
+    { label: "Safety Resources", href: `/${countryCode}/safety` as string },
   ]
 
   return (
@@ -29,7 +29,7 @@ export function PublicFooter() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
           {/* Brand column */}
           <div className="lg:col-span-1">
-            <Link to={`/${countryCode}`} className="flex items-center gap-2 mb-4">
+            <Link to={"/$countryCode" as string} params={{ countryCode }} className="flex items-center gap-2 mb-4">
               <ProLiftMark size={40} bg="#0f172a" color="#0d9488" />
               <div>
                 <span className="font-bold text-lg text-white">ProLift</span>
@@ -109,13 +109,13 @@ export function PublicFooter() {
             </p>
             <div className="flex items-center gap-6">
               <Link
-                to={`/${countryCode}/privacy`}
+                to={`/${countryCode}/privacy` as string}
                 className="text-sm text-slate-500 hover:text-slate-300 transition-colors"
               >
                 Privacy Policy
               </Link>
               <Link
-                to={`/${countryCode}/terms`}
+                to={`/${countryCode}/terms` as string}
                 className="text-sm text-slate-500 hover:text-slate-300 transition-colors"
               >
                 Terms of Service

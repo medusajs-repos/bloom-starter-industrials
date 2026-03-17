@@ -126,7 +126,7 @@ export function Sidebar({ countryCode, collapsed = false, onToggle }: SidebarPro
     <aside className={`fixed left-0 top-0 h-screen ${sidebarWidth} bg-sidebar flex flex-col z-50 transition-all duration-300 ease-in-out`}>
       {/* Logo & Toggle */}
       <div className={`p-4 border-b border-white/10 flex items-center ${collapsed ? "justify-center" : "justify-between"}`}>
-        <Link to={`/${countryCode}`} className={`flex items-center gap-3 ${collapsed ? "" : "flex-1"}`}>
+        <Link to="/$countryCode" params={{ countryCode }} className={`flex items-center gap-3 ${collapsed ? "" : "flex-1"}`}>
           {employee?.company?.logo_url ? (
             <img
               src={employee.company.logo_url}
@@ -178,7 +178,7 @@ export function Sidebar({ countryCode, collapsed = false, onToggle }: SidebarPro
           )}
           <div className="space-y-1">
             <Link 
-              to={`/${countryCode}`} 
+              to="/$countryCode" params={{ countryCode }} 
               className={navLinkClass(`/${countryCode}`)}
               title={collapsed ? "Dashboard" : undefined}
               data-tour="dashboard"
@@ -187,7 +187,7 @@ export function Sidebar({ countryCode, collapsed = false, onToggle }: SidebarPro
               {!collapsed && "Dashboard"}
             </Link>
             <Link 
-              to={`/${countryCode}/store`} 
+              to="/$countryCode/store" params={{ countryCode }} 
               className={navLinkClass(`/${countryCode}/store`)}
               title={collapsed ? "Product Catalog" : undefined}
               data-tour="catalog"
@@ -196,7 +196,7 @@ export function Sidebar({ countryCode, collapsed = false, onToggle }: SidebarPro
               {!collapsed && "Product Catalog"}
             </Link>
             <Link 
-              to={`/${countryCode}/cart`} 
+              to="/$countryCode/cart" params={{ countryCode }} 
               className={`${navLinkClass(`/${countryCode}/cart`)} relative`}
               title={collapsed ? "Cart" : undefined}
               data-tour="cart"
@@ -210,7 +210,7 @@ export function Sidebar({ countryCode, collapsed = false, onToggle }: SidebarPro
               )}
             </Link>
             <Link 
-              to={`/${countryCode}/orders`}
+              to="/$countryCode/orders" params={{ countryCode }}
               className={navLinkClass(`/${countryCode}/orders`)}
               title={collapsed ? "Order History" : undefined}
               data-tour="orders"
@@ -219,7 +219,7 @@ export function Sidebar({ countryCode, collapsed = false, onToggle }: SidebarPro
               {!collapsed && "Order History"}
             </Link>
             <Link 
-              to={`/${countryCode}/quotes`}
+              to="/$countryCode/quotes" params={{ countryCode }}
               className={navLinkClass(`/${countryCode}/quotes`)}
               title={collapsed ? "Quotes" : undefined}
               data-tour="quotes"
@@ -241,7 +241,7 @@ export function Sidebar({ countryCode, collapsed = false, onToggle }: SidebarPro
           <div className="space-y-1">
             {isAdmin && (
               <Link 
-                to={`/${countryCode}/employees`}
+                to="/$countryCode/employees" params={{ countryCode }}
                 className={navLinkClass(`/${countryCode}/employees`)}
                 title={collapsed ? "Employees" : undefined}
                 data-tour="employees"
@@ -251,7 +251,7 @@ export function Sidebar({ countryCode, collapsed = false, onToggle }: SidebarPro
               </Link>
             )}
             <Link 
-              to={`/${countryCode}/settings`}
+              to="/$countryCode/settings" params={{ countryCode }}
               className={navLinkClass(`/${countryCode}/settings`)}
               title={collapsed ? "Settings" : undefined}
               data-tour="settings"

@@ -498,7 +498,7 @@ export const CartDropdown = () => {
               Your cart is empty
             </span>
             <Link to="/$countryCode/store" params={{ countryCode }} onClick={closeCart}>
-              <Button variant="secondary" size="fit">
+              <Button variant="secondary" size="sm">
                 Explore products
               </Button>
             </Link>

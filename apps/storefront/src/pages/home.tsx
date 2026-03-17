@@ -160,7 +160,7 @@ export default function Home() {
       {/* Quick Actions */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
         <Link
-          to={`/${countryCode}/store`}
+          to={"/$countryCode/store" as string} params={{ countryCode }}
           className="bg-teal-600 hover:bg-teal-700 rounded-xl p-6 text-white transition-colors group"
         >
           <div className="flex items-center justify-between mb-4">
@@ -178,7 +178,7 @@ export default function Home() {
         </Link>
 
         <Link
-          to={`/${countryCode}/quotes`}
+          to={"/$countryCode/quotes" as string} params={{ countryCode }}
           className="bg-white hover:bg-gray-50 rounded-xl border border-gray-200 p-6 transition-colors group"
         >
           <div className="flex items-center justify-between mb-4">
@@ -196,7 +196,7 @@ export default function Home() {
         </Link>
 
         <Link
-          to={`/${countryCode}/orders`}
+          to={"/$countryCode/orders" as string} params={{ countryCode }}
           className="bg-white hover:bg-gray-50 rounded-xl border border-gray-200 p-6 transition-colors group"
         >
           <div className="flex items-center justify-between mb-4">
@@ -222,7 +222,7 @@ export default function Home() {
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-lg font-semibold text-gray-900">Featured Equipment</h2>
               <Link
-                to={`/${countryCode}/store`}
+                to={"/$countryCode/store" as string} params={{ countryCode }}
                 className="text-sm font-medium text-teal-600 hover:text-teal-700"
               >
                 View all

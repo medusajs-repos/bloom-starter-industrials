@@ -139,9 +139,9 @@ const ProductActions = memo(function ProductActions({
                   option={option}
                   current={selectedOptions[option.id]}
                   updateOption={setOptionValue}
-                  title={option.title ?? ""}
                   data-testid="product-options"
                   disabled={!!disabled || addToCartMutation.isPending}
+                  product={product}
                 />
               </div>
             )

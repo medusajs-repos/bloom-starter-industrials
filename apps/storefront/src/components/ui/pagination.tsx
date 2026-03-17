@@ -35,7 +35,7 @@ const Pagination = ({
         onClick={() => onPageChange(page - 1)}
         disabled={page <= 1}
         variant="secondary"
-        size="fit"
+        size="sm"
       >
         Previous
       </Button>
@@ -86,7 +86,7 @@ const Pagination = ({
         onClick={() => onPageChange(page + 1)}
         disabled={page >= totalPages}
         variant="secondary"
-        size="fit"
+        size="sm"
       >
         Next
       </Button>

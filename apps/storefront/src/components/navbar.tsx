@@ -13,7 +13,7 @@ import { useCart } from "@/lib/hooks/use-cart"
 import { useState } from "react"
 
 export function Navbar() {
-  const { cart } = useCart()
+  const { data: cart } = useCart()
   const params = useParams({ strict: false })
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [searchOpen, setSearchOpen] = useState(false)
@@ -46,22 +46,22 @@ export function Navbar() {
                 All Equipment
               </Link>
               <Link
-                to="/$countryCode/categories/forklifts"
-                params={{ countryCode }}
+                to="/$countryCode/categories/$handle"
+                params={{ countryCode, handle: "forklifts" }}
                 className="text-sm text-gray-600 hover:text-gray-900 transition-colors"
               >
                 Forklifts
               </Link>
               <Link
-                to="/$countryCode/categories/material-handlers"
-                params={{ countryCode }}
+                to="/$countryCode/categories/$handle"
+                params={{ countryCode, handle: "material-handlers" }}
                 className="text-sm text-gray-600 hover:text-gray-900 transition-colors"
               >
                 Material Handlers
               </Link>
               <Link
-                to="/$countryCode/categories/parts-accessories"
-                params={{ countryCode }}
+                to="/$countryCode/categories/$handle"
+                params={{ countryCode, handle: "parts-accessories" }}
                 className="text-sm text-gray-600 hover:text-gray-900 transition-colors"
               >
                 Parts
@@ -81,7 +81,7 @@ export function Navbar() {
 
               {/* Account */}
               <Link
-                to="/$countryCode/account"
+                to={"/$countryCode/account" as string}
                 params={{ countryCode }}
                 className="hidden sm:block p-2 text-gray-500 hover:text-gray-900 transition-colors"
               >
@@ -148,24 +148,24 @@ export function Navbar() {
                 All Equipment
               </Link>
               <Link
-                to="/$countryCode/categories/forklifts"
-                params={{ countryCode }}
+                to="/$countryCode/categories/$handle"
+                params={{ countryCode, handle: "forklifts" }}
                 onClick={() => setMobileMenuOpen(false)}
                 className="block py-3 text-gray-600"
               >
                 Forklifts
               </Link>
               <Link
-                to="/$countryCode/categories/material-handlers"
-                params={{ countryCode }}
+                to="/$countryCode/categories/$handle"
+                params={{ countryCode, handle: "material-handlers" }}
                 onClick={() => setMobileMenuOpen(false)}
                 className="block py-3 text-gray-600"
               >
                 Material Handlers
               </Link>
               <Link
-                to="/$countryCode/categories/parts-accessories"
-                params={{ countryCode }}
+                to="/$countryCode/categories/$handle"
+                params={{ countryCode, handle: "parts-accessories" }}
                 onClick={() => setMobileMenuOpen(false)}
                 className="block py-3 text-gray-600"
               >
@@ -173,7 +173,7 @@ export function Navbar() {
               </Link>
               <div className="pt-4 border-t border-gray-100">
                 <Link
-                  to="/$countryCode/account"
+                  to={"/$countryCode/account" as string}
                   params={{ countryCode }}
                   onClick={() => setMobileMenuOpen(false)}
                   className="block py-3 text-gray-600"

@@ -7,6 +7,7 @@ import {
 import { DashboardPageLayout } from "@/components/dashboard-page-layout"
 import { Button } from "@/components/ui/button"
 import { Loading } from "@/components/ui/loading"
+import { CheckoutStepKey } from "@/lib/types/global"
 import { useCart, useCreateCart } from "@/lib/hooks/use-cart"
 import { useCreateQuoteFromCart } from "@/lib/hooks/use-quotes"
 import { useAuth } from "@/lib/hooks/use-auth"
@@ -144,7 +145,7 @@ const Cart = () => {
 
                 {/* Action Buttons */}
                 <div className="space-y-3">
-                  <Link to="/$countryCode/checkout" params={{ countryCode }} className="block">
+                  <Link to="/$countryCode/checkout" params={{ countryCode }} search={{ step: CheckoutStepKey.ADDRESSES }} className="block">
                     <Button className="w-full" size="lg">
                       Proceed to Checkout
                     </Button>

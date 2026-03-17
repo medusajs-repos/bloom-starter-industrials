@@ -42,7 +42,7 @@ export function ProductCard({ product, regionId, countryCode }: ProductCardProps
 
     if (!isAuthenticated) {
       toast.error("Please log in to request a quote")
-      navigate({ to: `/${countryCode}/account/login` })
+      navigate({ to: "/$countryCode/account/login" as string, params: { countryCode } })
       return
     }
     const variant = product.variants?.[0]
@@ -77,7 +77,8 @@ export function ProductCard({ product, regionId, countryCode }: ProductCardProps
       {/* Image */}
       <div className="aspect-[4/3] bg-slate-100 relative overflow-hidden">
         <Link 
-          to={`/${countryCode}/products/${product.handle}`}
+          to="/$countryCode/products/$handle"
+          params={{ countryCode, handle: product.handle || "" }}
           className="block w-full h-full"
         >
           {primaryImage ? (
@@ -115,7 +116,8 @@ export function ProductCard({ product, regionId, countryCode }: ProductCardProps
       <div className="p-4 flex flex-col flex-1">
         {/* Title */}
         <Link 
-          to={`/${countryCode}/products/${product.handle}`}
+          to="/$countryCode/products/$handle"
+          params={{ countryCode, handle: product.handle || "" }}
           className="block"
         >
           <h3 className="text-sm font-semibold text-text-primary mb-1 line-clamp-2 min-h-[2.5rem] group-hover:text-accent transition-colors">
@@ -175,7 +177,7 @@ export function ProductCard({ product, regionId, countryCode }: ProductCardProps
               onSuccess: () => {
                 setShowQuoteModal(false)
                 toast.success("Quote request submitted!")
-                navigate({ to: `/${countryCode}/quotes` })
+                navigate({ to: "/$countryCode/quotes", params: { countryCode } })
               },
               onError: (error: Error) => {
                 toast.error(error.message || "Failed to create quote")

@@ -71,7 +71,7 @@ export function StorePage() {
         <section className="bg-slate-900 text-white py-8 lg:py-12">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center gap-2 text-sm text-slate-400 mb-3">
-              <Link to={`/${countryCode}`} className="hover:text-white transition-colors">
+              <Link to={"/$countryCode" as string} params={{ countryCode }} className="hover:text-white transition-colors">
                 Home
               </Link>
               <ChevronRight className="w-4 h-4" />
@@ -151,7 +151,7 @@ export function StorePage() {
               {publicFilteredProducts.length} products
             </p>
             <Link
-              to={`/${countryCode}/account/login`}
+              to={"/$countryCode/account/login" as string} params={{ countryCode }}
               className="text-xs font-medium text-teal-600 hover:text-teal-700"
             >
               Sign in for pricing
@@ -213,13 +213,13 @@ export function StorePage() {
             </p>
             <div className="flex flex-wrap justify-center gap-3">
               <Link
-                to={`/${countryCode}/account/register`}
+                to={"/$countryCode/account/register" as string} params={{ countryCode }}
                 className="px-5 py-2.5 bg-teal-600 text-white text-sm font-semibold rounded-lg hover:bg-teal-700 transition-colors"
               >
                 Create Account
               </Link>
               <Link
-                to={`/${countryCode}/account/login`}
+                to={"/$countryCode/account/login" as string} params={{ countryCode }}
                 className="px-5 py-2.5 border-2 border-slate-600 text-white text-sm font-semibold rounded-lg hover:bg-slate-800 transition-colors"
               >
                 Sign In
