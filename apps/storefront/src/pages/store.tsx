@@ -1,24 +1,80 @@
-import { Link, useLoaderData, useSearch } from "@tanstack/react-router"
+import { Link, useLoaderData, useNavigate, useSearch } from "@tanstack/react-router"
 import { HttpTypes } from "@medusajs/types"
 import { ProductCard } from "@/components/product-card"
 import { PublicProductCard } from "@/components/public-product-card"
+import { OptionsPicker } from "@/components/options-picker"
 import { MagnifyingGlass, Funnel, ChevronRight, Spinner } from "@medusajs/icons"
 import { useState, useEffect, useRef, useCallback, useMemo } from "react"
 import { useAuth } from "@/lib/hooks/use-auth"
 import { useCategories } from "@/lib/hooks/use-categories"
 import { useProducts } from "@/lib/hooks/use-products"
+import { OPTION_VALUE_QUERY_KEY } from "@/lib/utils/option-value-params"
 
 interface StorePageData {
   products: HttpTypes.StoreProduct[]
   count: number
   region: HttpTypes.StoreRegion
   countryCode: string
+  optionValueIds?: string[]
 }
 
-export function StorePage() {
+type StoreSearch = {
+  category?: string
+  [OPTION_VALUE_QUERY_KEY]?: string | string[]
+}
+
+export function StorePage({
+  hideOptionsPicker = false,
+}: {
+  hideOptionsPicker?: boolean
+} = {}) {
   const loaderData = useLoaderData({ strict: false }) as StorePageData | undefined
-  const { products = [], count = 0, region, countryCode = "us" } = loaderData || {}
-  const searchParams = useSearch({ strict: false }) as { category?: string } | undefined
+  const { products = [], region, countryCode = "us" } = loaderData || {}
+  const searchParams = useSearch({ strict: false }) as StoreSearch | undefined
+  const navigate = useNavigate()
+
+  const optionValueIds = useMemo<string[]>(() => {
+    const raw = searchParams?.[OPTION_VALUE_QUERY_KEY]
+    if (!raw) return []
+    if (Array.isArray(raw)) {
+      return Array.from(new Set(raw.filter(Boolean)))
+    }
+    return Array.from(
+      new Set(
+        raw
+          .split(",")
+          .map((v) => v.trim())
+          .filter(Boolean)
+      )
+    )
+  }, [searchParams])
+
+  const updateOptionValueIds = useCallback(
+    (next: string[]) => {
+      const deduped = Array.from(new Set(next.filter(Boolean)))
+      const current = optionValueIds
+      const sameLength = current.length === deduped.length
+      const sameValues =
+        sameLength && current.every((v, i) => v === deduped[i])
+      if (sameValues) return
+      navigate({
+        to: ".",
+        search: (prev: StoreSearch | undefined) => {
+          const next: StoreSearch = { ...(prev ?? {}) }
+          if (deduped.length === 0) {
+            delete next[OPTION_VALUE_QUERY_KEY]
+          } else {
+            next[OPTION_VALUE_QUERY_KEY] = deduped
+          }
+          // Reset pagination on filter change
+          delete (next as unknown as { page?: unknown }).page
+          return next
+        },
+        replace: false,
+      })
+    },
+    [navigate, optionValueIds]
+  )
   const [searchInput, setSearchInput] = useState("")
   const [debouncedSearch, setDebouncedSearch] = useState("")
   const [selectedCategory, setSelectedCategory] = useState<string | null>(searchParams?.category ?? null)
@@ -241,10 +297,11 @@ export function StorePage() {
   } = useProducts({
     query_params: {
       limit: 24,
-      fields: "*variants.calculated_price,*categories,*images",
+      fields: "*variants.calculated_price,*categories,*images,*variants.options",
       order: sortOrder,
       ...(selectedCategory && { category_id: [selectedCategory] }),
       ...(debouncedSearch && { q: debouncedSearch }),
+      ...(optionValueIds.length > 0 && { option_value_id: optionValueIds }),
     },
     region_id: region?.id,
   })
@@ -283,7 +340,21 @@ export function StorePage() {
   return (
     <div className="min-h-screen bg-background">
       {/* Main Content */}
-      <div className="p-8">
+      <div className="p-8 flex gap-6">
+        {!hideOptionsPicker && (
+          <aside className="hidden lg:block w-64 shrink-0">
+            <div className="sticky top-6 bg-surface border border-border rounded-lg p-4">
+              <h2 className="text-sm font-semibold text-text-primary mb-4">
+                Filters
+              </h2>
+              <OptionsPicker
+                selectedValueIds={optionValueIds}
+                onChange={updateOptionValueIds}
+              />
+            </div>
+          </aside>
+        )}
+        <div className="flex-1 min-w-0">
         {/* Page Title & Search */}
         <div className="mb-6">
           {/* Search & Filter Bar */}
@@ -390,7 +461,7 @@ export function StorePage() {
               }
             </p>
             {searchInput && (
-              <button 
+              <button
                 onClick={() => { setSearchInput(""); setDebouncedSearch("") }}
                 className="px-5 py-2.5 bg-accent text-white font-medium rounded-lg hover:bg-accent-hover transition-colors cursor-pointer"
               >
@@ -399,6 +470,7 @@ export function StorePage() {
             )}
           </div>
         )}
+        </div>
       </div>
     </div>
   )

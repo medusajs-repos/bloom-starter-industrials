@@ -3,11 +3,15 @@ import { HttpTypes } from "@medusajs/types"
 import { queryKeys } from "@/lib/utils/query-keys"
 import { sdk } from "@/lib/utils/sdk"
 
+type ProductListQueryParams = HttpTypes.StoreProductListParams & {
+  option_value_id?: string | string[]
+}
+
 export const useProducts = ({
   query_params,
   region_id,
 }: {
-  query_params?: HttpTypes.StoreProductListParams
+  query_params?: ProductListQueryParams
   region_id?: string
 } = {}) => {
   return useInfiniteQuery({
@@ -22,7 +26,7 @@ export const useProducts = ({
         offset,
         region_id,
         ...query_params,
-      })
+      } as HttpTypes.StoreProductListParams)
 
       const next_page = offset + limit < response.count ? _page_param + 1 : null
 

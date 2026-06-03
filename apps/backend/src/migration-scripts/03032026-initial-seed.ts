@@ -10,6 +10,7 @@ import {
   linkSalesChannelsToStockLocationWorkflow,
   createProductCategoriesWorkflow,
   createProductsWorkflow,
+  createProductOptionsWorkflow,
   linkProductsToSalesChannelWorkflow,
   createInventoryLevelsWorkflow,
 } from "@medusajs/medusa/core-flows";
@@ -1713,11 +1714,96 @@ export default async function migration_03032026_initial_seed({
   if (newProducts.length > 0) {
     logger.info("Seeding products...");
 
+    // ─── Global Product Options ──────────────────────────────────────
+    // Collect the union of values per option title across all products
+    // and create a single global option per title. Each product will then
+    // reference the global option(s) and the subset of value IDs it uses.
+    const titleToValues: Record<string, Set<string>> = {};
+    for (const product of newProducts) {
+      const inlineOptions = (product as any).options as
+        | Array<{ title: string; values: string[] }>
+        | undefined;
+      if (!inlineOptions) continue;
+      for (const opt of inlineOptions) {
+        if (!titleToValues[opt.title]) {
+          titleToValues[opt.title] = new Set();
+        }
+        for (const v of opt.values) {
+          titleToValues[opt.title].add(v);
+        }
+      }
+    }
+
+    const globalOptionInputs = Object.entries(titleToValues).map(
+      ([title, values]) => ({
+        title,
+        values: Array.from(values),
+      })
+    );
+
+    logger.info(
+      `Creating ${globalOptionInputs.length} global product options...`
+    );
+
+    const { result: createdGlobalOptions } = await createProductOptionsWorkflow(
+      container
+    ).run({
+      input: {
+        product_options: globalOptionInputs,
+      },
+    });
+
+    // Build a lookup: title -> { id, valueMap: { value -> value_id } }
+    const optionLookup: Record<
+      string,
+      { id: string; valueMap: Record<string, string> }
+    > = {};
+    for (const opt of createdGlobalOptions as Array<{
+      id: string;
+      title: string;
+      values?: Array<{ id: string; value: string }>;
+    }>) {
+      const valueMap: Record<string, string> = {};
+      for (const v of opt.values ?? []) {
+        valueMap[v.value] = v.id;
+      }
+      optionLookup[opt.title] = { id: opt.id, valueMap };
+    }
+
+    // Replace each product's inline options with references to the
+    // global options + the specific value_ids that product uses.
+    const productsWithGlobalOptions = newProducts.map((product) => {
+      const inlineOptions = (product as any).options as
+        | Array<{ title: string; values: string[] }>
+        | undefined;
+      if (!inlineOptions) return product;
+
+      const linkedOptions = inlineOptions.map((opt) => {
+        const lookup = optionLookup[opt.title];
+        if (!lookup) {
+          throw new Error(
+            `Global option not found for title "${opt.title}"`
+          );
+        }
+        return {
+          id: lookup.id,
+          value_ids: opt.values
+            .map((v) => lookup.valueMap[v])
+            .filter(Boolean),
+        };
+      });
+
+      return {
+        ...product,
+        options: linkedOptions,
+      };
+    });
+
     const { result: createdProducts } = await createProductsWorkflow(
       container
     ).run({
       input: {
-        products: newProducts,
+        products: productsWithGlobalOptions as any,
       },
     });
 
