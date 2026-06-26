@@ -3,7 +3,7 @@ import {
   validateAndTransformBody,
   authenticate,
 } from "@medusajs/framework/http"
-import { z } from "zod"
+import { z } from "@medusajs/framework/zod"
 
 const SetupCompanySchema = z.object({
   // Auth credentials

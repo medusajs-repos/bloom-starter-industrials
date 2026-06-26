@@ -126,7 +126,7 @@ export async function POST(
   const stripe = new Stripe(process.env.STRIPE_API_KEY)
 
   const setupIntent = await stripe.setupIntents.create({
-    customer: stripeCustomerId,
+    [Modules.CUSTOMER]: stripeCustomerId,
     payment_method_types: ["card"],
   })
 

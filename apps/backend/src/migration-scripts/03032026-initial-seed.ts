@@ -14,7 +14,7 @@ import {
   linkProductsToSalesChannelWorkflow,
   createInventoryLevelsWorkflow,
 } from "@medusajs/medusa/core-flows";
-import { CreateProductCategoryDTO, MedusaContainer } from "@medusajs/types";
+import { CreateProductCategoryDTO, MedusaContainer } from "@medusajs/framework/types";
 
 export default async function migration_03032026_initial_seed({
   container,
