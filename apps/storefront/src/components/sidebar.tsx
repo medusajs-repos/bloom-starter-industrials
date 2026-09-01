@@ -3,6 +3,7 @@ import { useCart } from "@/lib/hooks/use-cart"
 import { useAuth } from "@/lib/hooks/use-auth"
 import { useState } from "react"
 import { ProLiftMark } from "@/components/prolift-mark"
+import { SearchDrawer } from "@/components/search/search-drawer"
 
 interface SidebarProps {
   countryCode: string
@@ -177,8 +178,14 @@ export function Sidebar({ countryCode, collapsed = false, onToggle }: SidebarPro
             </h3>
           )}
           <div className="space-y-1">
-            <Link 
-              to="/$countryCode" params={{ countryCode }} 
+            <SearchDrawer
+              triggerClassName={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 text-slate-400 hover:bg-slate-700 hover:text-white cursor-pointer ${
+                collapsed ? "justify-center" : ""
+              }`}
+              triggerLabel={collapsed ? undefined : "Search"}
+            />
+            <Link
+              to="/$countryCode" params={{ countryCode }}
               className={navLinkClass(`/${countryCode}`)}
               title={collapsed ? "Dashboard" : undefined}
               data-tour="dashboard"
