@@ -70,7 +70,7 @@ const StoreSearchExperience = ({
                 data-testid="store-search-input"
               />
             </div>
-            <SortSelect />
+            <SortSelect currencyCode={region?.currency_code} />
           </div>
         </div>
 

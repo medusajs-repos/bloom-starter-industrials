@@ -1,9 +1,14 @@
 import { Checkbox } from "@/components/ui/checkbox"
+import { priceAttribute } from "@/lib/search-client"
 import { useToggleRefinement } from "react-instantsearch"
 
-export const OnSaleToggle = () => {
+type OnSaleToggleProps = {
+  currencyCode?: string | null
+}
+
+export const OnSaleToggle = ({ currencyCode }: OnSaleToggleProps = {}) => {
   const { value, refine } = useToggleRefinement({
-    attribute: "on_sale",
+    attribute: priceAttribute("on_sale", currencyCode),
     on: true,
   })
 

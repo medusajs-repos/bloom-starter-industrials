@@ -1,20 +1,29 @@
-import { PRODUCT_INDEX_NAME } from "@/lib/search-client"
+import { PRODUCT_INDEX_NAME, priceAttribute } from "@/lib/search-client"
 
 const sortValue = (field: string, direction: "asc" | "desc") =>
   `${PRODUCT_INDEX_NAME}/sort/${field}:${direction}`
 
-export const PRODUCT_SORT_OPTIONS = [
-  { label: "Relevance", value: PRODUCT_INDEX_NAME },
-  { label: "Newest", value: sortValue("created_at", "desc") },
-  { label: "Name: A-Z", value: sortValue("title", "asc") },
-  { label: "Name: Z-A", value: sortValue("title", "desc") },
-  { label: "Price: Low to High", value: sortValue("min_price", "asc") },
-  { label: "Price: High to Low", value: sortValue("min_price", "desc") },
-]
+/**
+ * The price fields are per currency, so the region's currency picks which set
+ * is sorted on.
+ */
+export const getPriceSortValues = (currencyCode?: string | null) => {
+  const minPrice = priceAttribute("min_price", currencyCode)
 
-export const PRICE_SORT_VALUES = [
-  sortValue("min_price", "asc"),
-  sortValue("min_price", "desc"),
-]
+  return [sortValue(minPrice, "asc"), sortValue(minPrice, "desc")]
+}
+
+export const getProductSortOptions = (currencyCode?: string | null) => {
+  const [priceAsc, priceDesc] = getPriceSortValues(currencyCode)
+
+  return [
+    { label: "Relevance", value: PRODUCT_INDEX_NAME },
+    { label: "Newest", value: sortValue("created_at", "desc") },
+    { label: "Name: A-Z", value: sortValue("title", "asc") },
+    { label: "Name: Z-A", value: sortValue("title", "desc") },
+    { label: "Price: Low to High", value: priceAsc },
+    { label: "Price: High to Low", value: priceDesc },
+  ]
+}
 
 export const PRODUCT_HITS_PER_PAGE = 24

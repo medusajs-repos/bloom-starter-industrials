@@ -5,8 +5,19 @@ const ATTRIBUTE_LABELS: Record<string, string> = {
   category: "Category",
   labels: "Label",
   option_values: "Option",
-  min_price: "Price",
-  on_sale: "On sale",
+}
+
+/** The price facets carry a currency suffix, e.g. `min_price_usd`. */
+const attributeLabel = (attribute: string) => {
+  if (attribute.startsWith("min_price_") || attribute.startsWith("max_price_")) {
+    return "Price"
+  }
+
+  if (attribute.startsWith("on_sale_")) {
+    return "On sale"
+  }
+
+  return ATTRIBUTE_LABELS[attribute] ?? attribute
 }
 
 const chipLabel = (
@@ -15,7 +26,7 @@ const chipLabel = (
 ) => {
   if (refinement.type === "numeric") {
     const operator = refinement.operator === ">=" ? "from" : "up to"
-    return `${ATTRIBUTE_LABELS[attribute] ?? attribute} ${operator} ${refinement.label}`
+    return `${attributeLabel(attribute)} ${operator} ${refinement.label}`
   }
 
   if (attribute === "option_values") {
@@ -25,13 +36,11 @@ const chipLabel = (
       : refinement.label
   }
 
-  if (attribute === "on_sale") {
+  if (attribute.startsWith("on_sale_")) {
     return "On sale"
   }
 
-  const prefix = ATTRIBUTE_LABELS[attribute] ?? attribute
-
-  return `${prefix}: ${refinement.label}`
+  return `${attributeLabel(attribute)}: ${refinement.label}`
 }
 
 export const AppliedRefinements = () => {

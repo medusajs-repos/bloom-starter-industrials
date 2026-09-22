@@ -1,28 +1,32 @@
 import { useAuth } from "@/lib/hooks/use-auth"
-import {
-  PRICE_SORT_VALUES,
-  PRODUCT_SORT_OPTIONS,
-} from "@/lib/search-sort"
+import { getPriceSortValues, getProductSortOptions } from "@/lib/search-sort"
 import { PRODUCT_INDEX_NAME } from "@/lib/search-client"
 import { useEffect, useMemo } from "react"
 import { useSortBy } from "react-instantsearch"
 
 type SortSelectProps = {
   className?: string
+  currencyCode?: string | null
 }
 
-export const SortSelect = ({ className = "" }: SortSelectProps) => {
+export const SortSelect = ({
+  className = "",
+  currencyCode,
+}: SortSelectProps) => {
   const { isAuthenticated, isLoading } = useAuth()
 
-  const items = useMemo(
-    () =>
-      isAuthenticated
-        ? PRODUCT_SORT_OPTIONS
-        : PRODUCT_SORT_OPTIONS.filter(
-            (option) => !PRICE_SORT_VALUES.includes(option.value)
-          ),
-    [isAuthenticated]
+  const priceSortValues = useMemo(
+    () => getPriceSortValues(currencyCode),
+    [currencyCode]
   )
+
+  const items = useMemo(() => {
+    const options = getProductSortOptions(currencyCode)
+
+    return isAuthenticated
+      ? options
+      : options.filter((option) => !priceSortValues.includes(option.value))
+  }, [isAuthenticated, currencyCode, priceSortValues])
 
   const { currentRefinement, options, refine } = useSortBy({ items })
 
@@ -31,10 +35,10 @@ export const SortSelect = ({ className = "" }: SortSelectProps) => {
       return
     }
 
-    if (PRICE_SORT_VALUES.includes(currentRefinement)) {
+    if (priceSortValues.includes(currentRefinement)) {
       refine(PRODUCT_INDEX_NAME)
     }
-  }, [isAuthenticated, isLoading, currentRefinement, refine])
+  }, [isAuthenticated, isLoading, currentRefinement, refine, priceSortValues])
 
   return (
     <select

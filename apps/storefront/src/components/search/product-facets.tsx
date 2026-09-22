@@ -15,7 +15,7 @@ export const ProductFacets = ({ currencyCode }: ProductFacetsProps = {}) => {
     <div className="space-y-5" data-testid="product-facets">
       <RefinementCheckboxList attribute="category" title="Category" />
       {isAuthenticated && <PriceRangeRefinement currencyCode={currencyCode} />}
-      <OnSaleToggle />
+      <OnSaleToggle currencyCode={currencyCode} />
       <RefinementCheckboxList attribute="labels" title="Labels" />
       <OptionValuesRefinement />
     </div>

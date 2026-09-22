@@ -1,11 +1,11 @@
 import { Button } from "@/components/ui/button"
+import { indexedCurrency, priceAttribute } from "@/lib/search-client"
 import { formatPrice } from "@/lib/utils/price"
 import { useEffect, useState } from "react"
 import { useRange } from "react-instantsearch"
 
+/** Only used to key the widget's test ids — the facet itself is per currency. */
 const ATTRIBUTE = "min_price"
-
-const FALLBACK_CURRENCY_CODE = "usd"
 
 type PriceRangeRefinementProps = {
   currencyCode?: string | null
@@ -23,10 +23,10 @@ export const PriceRangeRefinement = ({
   currencyCode,
 }: PriceRangeRefinementProps = {}) => {
   const { range, start, refine, canRefine } = useRange({
-    attribute: ATTRIBUTE,
+    attribute: priceAttribute("min_price", currencyCode),
   })
 
-  const currency = currencyCode?.trim() || FALLBACK_CURRENCY_CODE
+  const currency = indexedCurrency(currencyCode)
 
   const [minInput, setMinInput] = useState("")
   const [maxInput, setMaxInput] = useState("")

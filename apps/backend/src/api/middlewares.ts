@@ -7,6 +7,7 @@ import { employeesMiddlewares } from "./store/employees/middlewares"
 import { storeQuotesMiddlewares } from "./store/quotes/middlewares"
 import { dashboardMiddlewares } from "./store/dashboard/middlewares"
 import { storeUploadsMiddlewares } from "./store/uploads/middlewares"
+import { storeSearchMiddlewares } from "./store/search/middlewares"
 
 // Admin middlewares
 import { adminCompaniesMiddlewares } from "./admin/companies/middlewares"
@@ -24,6 +25,7 @@ export default defineMiddlewares({
     ...storeQuotesMiddlewares,
     ...dashboardMiddlewares,
     ...storeUploadsMiddlewares,
+    ...storeSearchMiddlewares,
     // Admin routes
     ...adminCompaniesMiddlewares,
     ...adminQuotesMiddlewares,
