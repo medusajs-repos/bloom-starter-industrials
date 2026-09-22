@@ -60,7 +60,8 @@ const Pagination = ({
           <Button
             key={pageNum}
             onClick={() => onPageChange(pageNum)}
-            variant="secondary"
+            variant={pageNum === page ? "primary" : "secondary"}
+            aria-current={pageNum === page ? "page" : undefined}
           >
             {pageNum}
           </Button>

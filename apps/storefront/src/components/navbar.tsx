@@ -1,5 +1,6 @@
 import { Link, useParams } from "@tanstack/react-router"
-import { ShoppingBag, MagnifyingGlass, User, XMark } from "@medusajs/icons"
+import { ShoppingBag, User, XMark } from "@medusajs/icons"
+import { SearchDrawer } from "@/components/search/search-drawer"
 
 // Simple hamburger menu icon
 function MenuIcon({ className }: { className?: string }) {
@@ -16,7 +17,6 @@ export function Navbar() {
   const { data: cart } = useCart()
   const params = useParams({ strict: false })
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const [searchOpen, setSearchOpen] = useState(false)
 
   const itemCount = cart?.items?.length ?? 0
   const countryCode = (params as { countryCode?: string })?.countryCode || "us"
@@ -24,7 +24,7 @@ export function Navbar() {
   return (
     <>
       {/* Clean minimal header */}
-      <header className="sticky top-0 z-50 bg-white border-b border-gray-100">
+      <header className="sticky top-0 z-50 bg-white border-b border-gray-100 pr-[var(--removed-body-scroll-bar-size,0px)]">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             {/* Logo - simple wordmark */}
@@ -70,14 +70,7 @@ export function Navbar() {
 
             {/* Right actions */}
             <div className="flex items-center gap-4">
-              {/* Search toggle */}
-              <button
-                onClick={() => setSearchOpen(!searchOpen)}
-                className="p-2 text-gray-500 hover:text-gray-900 transition-colors cursor-pointer"
-                aria-label="Search"
-              >
-                <MagnifyingGlass className="w-5 h-5" />
-              </button>
+              <SearchDrawer />
 
               {/* Account */}
               <Link
@@ -117,23 +110,6 @@ export function Navbar() {
             </div>
           </div>
         </div>
-
-        {/* Search bar - expandable */}
-        {searchOpen && (
-          <div className="border-t border-gray-100 bg-white">
-            <div className="max-w-7xl mx-auto px-6 lg:px-8 py-4">
-              <div className="relative max-w-xl mx-auto">
-                <MagnifyingGlass className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-                <input
-                  type="text"
-                  placeholder="Search equipment..."
-                  className="w-full pl-12 pr-4 py-3 bg-gray-50 border-0 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-200"
-                  autoFocus
-                />
-              </div>
-            </div>
-          </div>
-        )}
 
         {/* Mobile menu */}
         {mobileMenuOpen && (

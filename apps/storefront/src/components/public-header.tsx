@@ -1,6 +1,7 @@
 import { Link, useParams } from "@tanstack/react-router"
 import { useState } from "react"
 import { ProLiftMark } from "@/components/prolift-mark"
+import { SearchDrawer } from "@/components/search/search-drawer"
 
 interface PublicHeaderProps {
   bannerVisible?: boolean
@@ -12,7 +13,7 @@ export function PublicHeader({ bannerVisible = false }: PublicHeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   return (
-    <header className={`fixed left-0 right-0 z-50 bg-white border-b border-gray-200 transition-all ${bannerVisible ? "top-[44px]" : "top-0"}`}>
+    <header className={`fixed left-0 right-0 z-50 bg-white border-b border-gray-200 transition-[top] pr-[var(--removed-body-scroll-bar-size,0px)] ${bannerVisible ? "top-[44px]" : "top-0"}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
@@ -42,6 +43,8 @@ export function PublicHeader({ bannerVisible = false }: PublicHeaderProps) {
 
           {/* Right side actions */}
           <div className="flex items-center gap-3">
+            <SearchDrawer />
+
             <Link
               to={"/$countryCode/account/login" as string} params={{ countryCode }}
               className="hidden sm:inline-flex px-4 py-2 text-sm font-medium text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
