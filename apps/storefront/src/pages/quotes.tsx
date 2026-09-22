@@ -249,7 +249,7 @@ function QuoteDetailModal({
 
                         // Get product info from draft_order items (preview items don't have variant details)
                         const draftItem = draftOrder?.items?.find(i => i.id === item.id)
-                        const thumbnail = draftItem?.variant?.product?.thumbnail
+                        const thumbnail = draftItem?.thumbnail
                         const sku = draftItem?.variant?.sku
 
                         return (

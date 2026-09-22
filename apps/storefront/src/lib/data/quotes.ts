@@ -39,15 +39,11 @@ export interface Quote {
       quantity: number
       unit_price: number
       total: number
+      thumbnail?: string
       variant?: {
         id: string
         title: string
         sku?: string
-        product?: {
-          id: string
-          title: string
-          thumbnail?: string
-        }
       }
     }>
   }
